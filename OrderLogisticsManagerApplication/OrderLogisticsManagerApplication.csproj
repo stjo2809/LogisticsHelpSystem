@@ -15,4 +15,19 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Office\Controllers\" />
+    <Folder Include="Areas\Office\Data\" />
+    <Folder Include="Areas\Office\Models\" />
+    <Folder Include="Areas\Office\Views\" />
+    <Folder Include="Areas\Warehouse\Controllers\" />
+    <Folder Include="Areas\Warehouse\Data\" />
+    <Folder Include="Areas\Warehouse\Models\" />
+    <Folder Include="Areas\Warehouse\Views\" />
+    <Folder Include="Areas\Workshop\Controllers\" />
+    <Folder Include="Areas\Workshop\Data\" />
+    <Folder Include="Areas\Workshop\Models\" />
+    <Folder Include="Areas\Workshop\Views\" />
+  </ItemGroup>
+
 </Project>
