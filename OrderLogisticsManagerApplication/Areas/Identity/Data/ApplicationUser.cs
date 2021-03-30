@@ -23,6 +23,9 @@ namespace OrderLogisticsManagerApplication.Areas.Identity.Data
         [Required]
         public UserStatus Status { get; set; }
 
+        [Required]
+        public WorkGroup WorkGroup { get; set; }
+
         public ICollection<Card> Cards { get; set; }
 
         public string FullName { get { return $"{ FirstName } { LastName }"; } }
