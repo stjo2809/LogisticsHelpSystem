@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using WebApplicationTestApp.Areas.Identity.Data;
+using OrderLogisticsManagerApplication.Areas.Identity.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApplicationTestApp.Models
+namespace OrderLogisticsManagerApplication.Models.Database.Identity
 {
     public class WorkGroup
     {
@@ -16,6 +16,6 @@ namespace WebApplicationTestApp.Models
         [Required]
         public string WorkGroupName { get; set; }
 
-        public ICollection<WebApplicationTestAppUser> Users { get; set; }
+        public ICollection<ApplicationUser> Users { get; set; }
     }
 }

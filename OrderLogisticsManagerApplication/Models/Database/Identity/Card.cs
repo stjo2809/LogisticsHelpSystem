@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApplicationTestApp.Models
+namespace OrderLogisticsManagerApplication.Models.Database.Identity
 {
     public class Card
     {
