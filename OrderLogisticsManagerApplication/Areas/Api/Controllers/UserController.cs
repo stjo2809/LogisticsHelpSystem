@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OrderLogisticsManagerApplication.Data;
+using OrderLogisticsManagerApplication.Areas.Identity.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,18 +15,27 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly ApplicationIdentityContext applicationIdentityContext;
+
+        public UserController(ApplicationIdentityContext applicationIdentityContext)
+        {
+            this.applicationIdentityContext = applicationIdentityContext;
+        }
+
+        #region User
+
         // GET: api/<UserController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<ApplicationUser> Get()
         {
-            return new string[] { "value1", "value2" };
+            return applicationIdentityContext.Users;
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ApplicationUser Get(string id)
         {
-            return "value";
+            return applicationIdentityContext.Users.Where(x => x.Id == id).FirstOrDefault();
         }
 
         // POST api/<UserController>
@@ -43,5 +55,21 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         public void Delete(int id)
         {
         }
+
+        #endregion
+
+        #region UserStatus
+
+        #endregion
+
+        #region Card
+
+        #endregion
+
+        #region CardStatus
+
+        #endregion
+
+
     }
 }
