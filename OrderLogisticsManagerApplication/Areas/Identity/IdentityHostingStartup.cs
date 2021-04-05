@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OrderLogisticsManagerApplication.Areas.Identity.Data;
 using OrderLogisticsManagerApplication.Data;
+using OrderLogisticsManagerApplication.Models;
 
 [assembly: HostingStartup(typeof(OrderLogisticsManagerApplication.Areas.Identity.IdentityHostingStartup))]
 namespace OrderLogisticsManagerApplication.Areas.Identity
@@ -21,7 +22,8 @@ namespace OrderLogisticsManagerApplication.Areas.Identity
                         context.Configuration.GetConnectionString("ApplicationIdentityContextConnection")));
 
                 services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<ApplicationIdentityContext>();
+                    .AddEntityFrameworkStores<ApplicationIdentityContext>()
+                    .AddUserManager<ApplicationUserManager>();
             });
         }
     }

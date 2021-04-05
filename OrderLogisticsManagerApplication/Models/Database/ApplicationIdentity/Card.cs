@@ -1,11 +1,12 @@
-﻿using System;
+﻿using OrderLogisticsManagerApplication.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderLogisticsManagerApplication.Models.Database
+namespace OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity
 {
     public class Card
     {
@@ -16,6 +17,6 @@ namespace OrderLogisticsManagerApplication.Models.Database
         [Required]
         public CardStatus Status { get; set; }
         [Required]
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

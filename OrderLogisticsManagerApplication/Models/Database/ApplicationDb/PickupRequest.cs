@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderLogisticsManagerApplication.Models.Database
+namespace OrderLogisticsManagerApplication.Models.Database.ApplicationDb
 {
-    public class Delivery
+    public class PickupRequest
     {
         [Key]
-        public int DeliveryID { get; set; }
+        public int PickupRequestID { get; set; }
 
         [Required]
         public Order Order { get; set; }
@@ -18,9 +18,11 @@ namespace OrderLogisticsManagerApplication.Models.Database
         public User User { get; set; }
 
         [Required]
-        public int DeliveryAmount { get; set; }
+        public int PickupRequestAmount { get; set; }
 
         [Required]
-        public DateTime DeliveryTime { get; set; }
+        public DateTime PickupRequestTime { get; set; }
+
+        public Pickup Pickup { get; set; }
     }
 }

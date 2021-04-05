@@ -1,11 +1,12 @@
-﻿using System;
+﻿using OrderLogisticsManagerApplication.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderLogisticsManagerApplication.Models.Database
+namespace OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity
 {
     public class WorkGroup
     {
@@ -16,6 +17,6 @@ namespace OrderLogisticsManagerApplication.Models.Database
         [Required]
         public string WorkGroupName { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public ICollection<ApplicationUser> Users { get; set; }
     }
 }

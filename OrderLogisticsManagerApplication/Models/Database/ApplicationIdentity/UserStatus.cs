@@ -1,10 +1,11 @@
-﻿using System;
+﻿using OrderLogisticsManagerApplication.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderLogisticsManagerApplication.Models.Database
+namespace OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity
 {
     public class UserStatus
     {
@@ -13,6 +14,6 @@ namespace OrderLogisticsManagerApplication.Models.Database
         [Required]
         public String StatusDescription { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public ICollection<ApplicationUser> Users { get; set; }
     }
 }

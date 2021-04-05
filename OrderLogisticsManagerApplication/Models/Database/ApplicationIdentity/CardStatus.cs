@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderLogisticsManagerApplication.Models.Database
+namespace OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity
 {
     public class CardStatus
     {
