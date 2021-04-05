@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderLogisticsManagerApplication.Models.Database.Application
+namespace OrderLogisticsManagerApplication.Models.Database
 {
     public class PackingMaterialUsedOnOrder
     {
@@ -19,5 +19,6 @@ namespace OrderLogisticsManagerApplication.Models.Database.Application
 
         [Required]
         public int Amount { get; set; }
+
     }
 }

@@ -3,17 +3,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
 {
-    public partial class initCreate : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "CardStatuses",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StatusDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CardStatuses", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Components",
                 columns: table => new
                 {
                     ComponentID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ComponentPartNumber = table.Column<int>(type: "int", nullable: false),
+                    ComponentPartNumber = table.Column<long>(type: "bigint", nullable: false),
                     ComponentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ComponentWidth = table.Column<float>(type: "real", nullable: false),
                     ComponentHeigth = table.Column<float>(type: "real", nullable: false),
@@ -31,7 +44,7 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                 {
                     MaterialID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MaterialPartNumber = table.Column<int>(type: "int", nullable: false),
+                    MaterialPartNumber = table.Column<long>(type: "bigint", nullable: false),
                     MaterialName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HasDimension = table.Column<bool>(type: "bit", nullable: false),
                     MaterialWidth = table.Column<float>(type: "real", nullable: false),
@@ -45,16 +58,86 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserStatuses",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StatusDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserStatuses", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WorkGroups",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WorkGroupNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    WorkGroupName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkGroups", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     UserID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserGUID = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false)
+                    ApplicationUserGUID = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    StatusID = table.Column<int>(type: "int", nullable: false),
+                    WorkGroupID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserID);
+                    table.ForeignKey(
+                        name: "FK_Users_UserStatuses_StatusID",
+                        column: x => x.StatusID,
+                        principalTable: "UserStatuses",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Users_WorkGroups_WorkGroupID",
+                        column: x => x.WorkGroupID,
+                        principalTable: "WorkGroups",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Card",
+                columns: table => new
+                {
+                    CardID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CardNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StatusID = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Card", x => x.CardID);
+                    table.ForeignKey(
+                        name: "FK_Card_CardStatuses_StatusID",
+                        column: x => x.StatusID,
+                        principalTable: "CardStatuses",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Card_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,10 +169,10 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                 {
                     OrderID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderNumber = table.Column<int>(type: "int", nullable: false),
-                    OrderFeedbackNumber = table.Column<int>(type: "int", nullable: false),
+                    OrderNumber = table.Column<long>(type: "bigint", nullable: false),
+                    OrderFeedbackNumber = table.Column<long>(type: "bigint", nullable: false),
                     OrderAmount = table.Column<int>(type: "int", nullable: false),
-                    ComponentID = table.Column<int>(type: "int", nullable: true),
+                    ComponentID = table.Column<int>(type: "int", nullable: false),
                     OrderStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderEnteredByUserID = table.Column<int>(type: "int", nullable: true)
@@ -102,7 +185,7 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                         column: x => x.ComponentID,
                         principalTable: "Components",
                         principalColumn: "ComponentID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orders_Users_OrderEnteredByUserID",
                         column: x => x.OrderEnteredByUserID,
@@ -166,7 +249,7 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderID = table.Column<int>(type: "int", nullable: false),
-                    MaterialID = table.Column<int>(type: "int", nullable: true),
+                    MaterialID = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -183,7 +266,7 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                         column: x => x.MaterialID,
                         principalTable: "PackingMaterials",
                         principalColumn: "MaterialID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -220,6 +303,16 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                         principalColumn: "UserID",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Card_StatusID",
+                table: "Card",
+                column: "StatusID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Card_UserID",
+                table: "Card",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Deliveries_OrderID",
@@ -275,10 +368,23 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                 name: "IX_Pickups_UserID",
                 table: "Pickups",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_StatusID",
+                table: "Users",
+                column: "StatusID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_WorkGroupID",
+                table: "Users",
+                column: "WorkGroupID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Card");
+
             migrationBuilder.DropTable(
                 name: "Deliveries");
 
@@ -290,6 +396,9 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
 
             migrationBuilder.DropTable(
                 name: "PickupRequests");
+
+            migrationBuilder.DropTable(
+                name: "CardStatuses");
 
             migrationBuilder.DropTable(
                 name: "PackingMaterials");
@@ -305,6 +414,12 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "UserStatuses");
+
+            migrationBuilder.DropTable(
+                name: "WorkGroups");
         }
     }
 }

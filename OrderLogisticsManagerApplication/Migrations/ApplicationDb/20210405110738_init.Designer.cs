@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OrderLogisticsManagerApplication.Models.Database.Application;
+using OrderLogisticsManagerApplication.Models.Database;
 
 namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210330134902_initCreate")]
-    partial class initCreate
+    [Migration("20210405110738_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,49 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.Component", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Card", b =>
+                {
+                    b.Property<int>("CardID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StatusID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("CardID");
+
+                    b.HasIndex("StatusID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Card");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.CardStatus", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("StatusDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("CardStatuses");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Component", b =>
                 {
                     b.Property<int>("ComponentID")
                         .ValueGeneratedOnAdd()
@@ -38,8 +80,8 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ComponentPartNumber")
-                        .HasColumnType("int");
+                    b.Property<long>("ComponentPartNumber")
+                        .HasColumnType("bigint");
 
                     b.Property<float>("ComponentWeigth")
                         .HasColumnType("real");
@@ -52,7 +94,7 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.ToTable("Components");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.Delivery", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Delivery", b =>
                 {
                     b.Property<int>("DeliveryID")
                         .ValueGeneratedOnAdd()
@@ -80,7 +122,7 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.ToTable("Deliveries");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.Log", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Log", b =>
                 {
                     b.Property<int>("LogID")
                         .ValueGeneratedOnAdd()
@@ -109,14 +151,14 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.ToTable("Logs");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.Order", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Order", b =>
                 {
                     b.Property<int>("OrderID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ComponentID")
+                    b.Property<int>("ComponentID")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderAmount")
@@ -128,11 +170,11 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.Property<int?>("OrderEnteredByUserID")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderFeedbackNumber")
-                        .HasColumnType("int");
+                    b.Property<long>("OrderFeedbackNumber")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("OrderNumber")
-                        .HasColumnType("int");
+                    b.Property<long>("OrderNumber")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("OrderStartDate")
                         .HasColumnType("datetime2");
@@ -146,7 +188,7 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.PackingMaterial", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.PackingMaterial", b =>
                 {
                     b.Property<int>("MaterialID")
                         .ValueGeneratedOnAdd()
@@ -166,8 +208,8 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaterialPartNumber")
-                        .HasColumnType("int");
+                    b.Property<long>("MaterialPartNumber")
+                        .HasColumnType("bigint");
 
                     b.Property<float>("MaterialWeigth")
                         .HasColumnType("real");
@@ -180,7 +222,7 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.ToTable("PackingMaterials");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.PackingMaterialUsedOnOrder", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.PackingMaterialUsedOnOrder", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -190,7 +232,7 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MaterialID")
+                    b.Property<int>("MaterialID")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderID")
@@ -205,7 +247,7 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.ToTable("PackingMaterialUsedOnOrders");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.Pickup", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Pickup", b =>
                 {
                     b.Property<int>("PickupID")
                         .ValueGeneratedOnAdd()
@@ -225,7 +267,7 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.ToTable("Pickups");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.PickupRequest", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.PickupRequest", b =>
                 {
                     b.Property<int>("PickupRequestID")
                         .ValueGeneratedOnAdd()
@@ -258,32 +300,106 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.ToTable("PickupRequests");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.User", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.User", b =>
                 {
                     b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("UserGUID")
-                        .IsRequired()
+                    b.Property<string>("ApplicationUserGUID")
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("StatusID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkGroupID")
+                        .HasColumnType("int");
+
                     b.HasKey("UserID");
+
+                    b.HasIndex("StatusID");
+
+                    b.HasIndex("WorkGroupID");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.Delivery", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.UserStatus", b =>
                 {
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Application.Order", "Order")
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("StatusDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("UserStatuses");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.WorkGroup", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("WorkGroupName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkGroupNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("WorkGroups");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Card", b =>
+                {
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.CardStatus", "Status")
+                        .WithMany("Cards")
+                        .HasForeignKey("StatusID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.User", "User")
+                        .WithMany("Cards")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Status");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Delivery", b =>
+                {
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Order", "Order")
                         .WithMany("Delivered")
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Application.User", "User")
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID");
 
@@ -292,22 +408,24 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.Log", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Log", b =>
                 {
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Application.User", "User")
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.Order", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Order", b =>
                 {
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Application.Component", "Component")
-                        .WithMany()
-                        .HasForeignKey("ComponentID");
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Component", "Component")
+                        .WithMany("Orders")
+                        .HasForeignKey("ComponentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Application.User", "OrderEnteredBy")
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.User", "OrderEnteredBy")
                         .WithMany()
                         .HasForeignKey("OrderEnteredByUserID");
 
@@ -316,13 +434,15 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.Navigation("OrderEnteredBy");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.PackingMaterialUsedOnOrder", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.PackingMaterialUsedOnOrder", b =>
                 {
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Application.PackingMaterial", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialID");
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.PackingMaterial", "Material")
+                        .WithMany("packingMaterialUsedOnOrders")
+                        .HasForeignKey("MaterialID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Application.Order", "Order")
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Order", "Order")
                         .WithMany("PackingMaterialUsed")
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -333,28 +453,28 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.Pickup", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Pickup", b =>
                 {
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Application.User", "User")
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.PickupRequest", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.PickupRequest", b =>
                 {
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Application.Order", "Order")
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Order", "Order")
                         .WithMany("PickupRequested")
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Application.Pickup", "Pickup")
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Pickup", "Pickup")
                         .WithMany()
                         .HasForeignKey("PickupID");
 
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Application.User", "User")
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID");
 
@@ -365,13 +485,62 @@ namespace OrderLogisticsManagerApplication.Migrations.ApplicationDb
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Application.Order", b =>
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.User", b =>
+                {
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.UserStatus", "Status")
+                        .WithMany("Users")
+                        .HasForeignKey("StatusID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.WorkGroup", "WorkGroup")
+                        .WithMany("Users")
+                        .HasForeignKey("WorkGroupID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Status");
+
+                    b.Navigation("WorkGroup");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.CardStatus", b =>
+                {
+                    b.Navigation("Cards");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Component", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Order", b =>
                 {
                     b.Navigation("Delivered");
 
                     b.Navigation("PackingMaterialUsed");
 
                     b.Navigation("PickupRequested");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.PackingMaterial", b =>
+                {
+                    b.Navigation("packingMaterialUsedOnOrders");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.User", b =>
+                {
+                    b.Navigation("Cards");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.UserStatus", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.WorkGroup", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

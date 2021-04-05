@@ -5,14 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderLogisticsManagerApplication.Models.Database.Identity
+namespace OrderLogisticsManagerApplication.Models.Database
 {
     public class Card
     {
-        public int ID { get; set; }
+        [Key]
+        public int CardID { get; set; }
         [Required]
         public string CardNumber { get; set; }
         [Required]
         public CardStatus Status { get; set; }
+        [Required]
+        public User User { get; set; }
     }
 }

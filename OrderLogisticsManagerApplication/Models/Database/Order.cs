@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderLogisticsManagerApplication.Models.Database.Application
+namespace OrderLogisticsManagerApplication.Models.Database
 {
     public class Order
     {
@@ -12,10 +12,10 @@ namespace OrderLogisticsManagerApplication.Models.Database.Application
         public int OrderID { get; set; }
 
         [Required]
-        public int OrderNumber { get; set; }
+        public long OrderNumber { get; set; }
 
         [Required]
-        public int OrderFeedbackNumber { get; set; }
+        public long OrderFeedbackNumber { get; set; }
 
         [Required]
         public int OrderAmount { get; set; }

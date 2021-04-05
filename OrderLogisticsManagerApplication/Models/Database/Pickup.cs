@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderLogisticsManagerApplication.Models.Database.Application
+namespace OrderLogisticsManagerApplication.Models.Database
 {
     public class Pickup
     {
@@ -16,5 +16,7 @@ namespace OrderLogisticsManagerApplication.Models.Database.Application
 
         [Required]
         public DateTime PickupTime { get; set; }
+
+        ICollection<PickupRequest> PickupRequests { get; set; }
     }
 }

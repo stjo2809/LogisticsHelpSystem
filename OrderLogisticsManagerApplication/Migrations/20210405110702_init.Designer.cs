@@ -10,8 +10,8 @@ using OrderLogisticsManagerApplication.Data;
 namespace OrderLogisticsManagerApplication.Migrations
 {
     [DbContext(typeof(ApplicationIdentityContext))]
-    [Migration("20210330134842_initCreate")]
-    partial class initCreate
+    [Migration("20210405110702_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,16 +175,6 @@ namespace OrderLogisticsManagerApplication.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -211,18 +201,12 @@ namespace OrderLogisticsManagerApplication.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StatusID")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<int>("WorkGroupID")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -234,89 +218,7 @@ namespace OrderLogisticsManagerApplication.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("StatusID");
-
-                    b.HasIndex("WorkGroupID");
-
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Identity.Card", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CardNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("StatusID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("StatusID");
-
-                    b.ToTable("Cards");
-                });
-
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Identity.CardStatus", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("StatusDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("CardStatuses");
-                });
-
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Identity.UserStatus", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("StatusDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("UserStatuses");
-                });
-
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Identity.WorkGroup", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("WorkGroupName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WorkGroupNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("WorkGroups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -368,46 +270,6 @@ namespace OrderLogisticsManagerApplication.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Areas.Identity.Data.ApplicationUser", b =>
-                {
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Identity.UserStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusID");
-
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Identity.WorkGroup", "WorkGroup")
-                        .WithMany("Users")
-                        .HasForeignKey("WorkGroupID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Status");
-
-                    b.Navigation("WorkGroup");
-                });
-
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Identity.Card", b =>
-                {
-                    b.HasOne("OrderLogisticsManagerApplication.Areas.Identity.Data.ApplicationUser", null)
-                        .WithMany("Cards")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("OrderLogisticsManagerApplication.Models.Database.Identity.CardStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusID");
-
-                    b.Navigation("Status");
-                });
-
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Areas.Identity.Data.ApplicationUser", b =>
-                {
-                    b.Navigation("Cards");
-                });
-
-            modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.Identity.WorkGroup", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

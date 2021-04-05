@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Api\NewFolder\**" />
+    <Content Remove="Areas\Api\NewFolder\**" />
+    <EmbeddedResource Remove="Areas\Api\NewFolder\**" />
+    <None Remove="Areas\Api\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
@@ -30,6 +37,7 @@
     <Folder Include="Areas\Workshop\Data\" />
     <Folder Include="Areas\Workshop\Models\" />
     <Folder Include="Areas\Workshop\Views\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

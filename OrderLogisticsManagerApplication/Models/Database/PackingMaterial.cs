@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderLogisticsManagerApplication.Models.Database.Application
+namespace OrderLogisticsManagerApplication.Models.Database
 {
     public class PackingMaterial
     {
@@ -12,7 +12,7 @@ namespace OrderLogisticsManagerApplication.Models.Database.Application
         public int MaterialID { get; set; }
 
         [Required]
-        public int MaterialPartNumber { get; set; }
+        public long MaterialPartNumber { get; set; }
 
         [Required]
         public string MaterialName { get; set; }
@@ -26,5 +26,7 @@ namespace OrderLogisticsManagerApplication.Models.Database.Application
         public float MaterialDepth { get; set; }
 
         public float MaterialWeigth { get; set; }
+
+        public ICollection<PackingMaterialUsedOnOrder> packingMaterialUsedOnOrders { get; set; }
     }
 }
