@@ -37,7 +37,6 @@
     <Folder Include="Areas\Workshop\Data\" />
     <Folder Include="Areas\Workshop\Models\" />
     <Folder Include="Areas\Workshop\Views\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

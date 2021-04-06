@@ -10,7 +10,7 @@ namespace OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity
     public class UserStatus
     {
         [Key]
-        public int ID { get; set; }
+        public int UserStatusId { get; set; }
         [Required]
         public String StatusDescription { get; set; }
 

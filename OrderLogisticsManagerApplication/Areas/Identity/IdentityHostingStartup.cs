@@ -22,6 +22,7 @@ namespace OrderLogisticsManagerApplication.Areas.Identity
                         context.Configuration.GetConnectionString("ApplicationIdentityContextConnection")));
 
                 services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationIdentityContext>()
                     .AddUserManager<ApplicationUserManager>();
             });

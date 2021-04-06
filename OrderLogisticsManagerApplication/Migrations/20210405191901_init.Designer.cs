@@ -10,7 +10,7 @@ using OrderLogisticsManagerApplication.Data;
 namespace OrderLogisticsManagerApplication.Migrations
 {
     [DbContext(typeof(ApplicationIdentityContext))]
-    [Migration("20210405144221_init")]
+    [Migration("20210405191901_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -211,9 +211,6 @@ namespace OrderLogisticsManagerApplication.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StatusID")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -221,7 +218,12 @@ namespace OrderLogisticsManagerApplication.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int>("WorkGroupID")
+                    b.Property<int?>("UserStatusId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WorkGroupId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -234,16 +236,16 @@ namespace OrderLogisticsManagerApplication.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("StatusID");
+                    b.HasIndex("UserStatusId");
 
-                    b.HasIndex("WorkGroupID");
+                    b.HasIndex("WorkGroupId");
 
                     b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity.Card", b =>
                 {
-                    b.Property<int>("CardID")
+                    b.Property<int>("CardId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -252,16 +254,17 @@ namespace OrderLogisticsManagerApplication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StatusID")
+                    b.Property<int?>("CardStatusId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("CardID");
+                    b.HasKey("CardId");
 
-                    b.HasIndex("StatusID");
+                    b.HasIndex("CardStatusId");
 
                     b.HasIndex("UserId");
 
@@ -270,7 +273,7 @@ namespace OrderLogisticsManagerApplication.Migrations
 
             modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity.CardStatus", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("CardStatusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -279,14 +282,14 @@ namespace OrderLogisticsManagerApplication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("CardStatusId");
 
                     b.ToTable("CardStatuses");
                 });
 
             modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity.UserStatus", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("UserStatusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -295,14 +298,14 @@ namespace OrderLogisticsManagerApplication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("UserStatusId");
 
                     b.ToTable("UserStatuses");
                 });
 
             modelBuilder.Entity("OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity.WorkGroup", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("WorkGroupId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -315,7 +318,7 @@ namespace OrderLogisticsManagerApplication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("WorkGroupId");
 
                     b.ToTable("WorkGroups");
                 });
@@ -375,13 +378,13 @@ namespace OrderLogisticsManagerApplication.Migrations
                 {
                     b.HasOne("OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity.UserStatus", "Status")
                         .WithMany("Users")
-                        .HasForeignKey("StatusID")
+                        .HasForeignKey("UserStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity.WorkGroup", "WorkGroup")
                         .WithMany("Users")
-                        .HasForeignKey("WorkGroupID")
+                        .HasForeignKey("WorkGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -394,7 +397,7 @@ namespace OrderLogisticsManagerApplication.Migrations
                 {
                     b.HasOne("OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity.CardStatus", "Status")
                         .WithMany("Cards")
-                        .HasForeignKey("StatusID")
+                        .HasForeignKey("CardStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

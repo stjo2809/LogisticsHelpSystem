@@ -8,6 +8,7 @@ using OrderLogisticsManagerApplication.Areas.Api.Models;
 using Microsoft.AspNetCore.Identity;
 using OrderLogisticsManagerApplication.Models.Database.ApplicationDb;
 using OrderLogisticsManagerApplication.Models;
+using OrderLogisticsManagerApplication.Data;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,11 +18,13 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly ApplicationIdentityContext applicationIdentityContext;
         private readonly ApplicationDbContext applicationDbContext;
         private readonly ApplicationUserManager userManager;
 
-        public UserController(ApplicationDbContext applicationDbContext, ApplicationUserManager userManager)
+        public UserController(ApplicationIdentityContext applicationIdentityContext ,ApplicationDbContext applicationDbContext, ApplicationUserManager userManager)
         {
+            this.applicationIdentityContext = applicationIdentityContext;
             this.applicationDbContext = applicationDbContext;
             this.userManager = userManager;
         }
@@ -34,66 +37,145 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         {
             List<ApiOutputUserModel> returnList = new();
 
-            var result = await userManager.CreateAsync(new ApplicationUser() { 
-                Email = "sj@test.com", 
-                UserName = "stjo2809",
-                FirstName = "s123", LastName = "j123", 
-                Status = userManager.GetUserStatusById(1), 
-                WorkGroup = userManager.GetWorkGroupById(1) 
-            }, "Pwd1234.");
-           
-
-            var cs = userManager.GetCardStatusById(1);
-            var u = await userManager.FindByEmailAsync("sj@test.com");
-            userManager.CreateCard("20873hu926", cs,u);
-
-            var listcards = userManager.GetCards(); 
-
-            
-            //foreach (var user in applicationDbContext.Users)
-            //{
-            //    var UserIdentity = await userManager.FindByIdAsync(user.ApplicationUserGUID);
-
-            //    returnList.Add(new ApiOutputUserModel()
-            //    {
-            //        Email = UserIdentity.Email,
-            //        UserName = "temp",
-            //        FirstName = user.FirstName,
-            //        LastName = user.LastName,
-            //        UserStatus = user.Status.StatusDescription,
-            //        Role = userManager.GetRolesAsync(UserIdentity).ToString(),
-            //        WorkGroup = $"{user.WorkGroup.WorkGroupNumber} - {user.WorkGroup.WorkGroupName}",
-            //        CardCount = user.Cards.Count,
-            //        HasActiveCard = user.Cards.Where(x => x.Status.StatusDescription == "Active").Count() >= 1 ? true : false,
-            //    });
-            //}
+            foreach (var user in userManager.Users)
+            {
+                returnList.Add(new ApiOutputUserModel()
+                {
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    UserStatus = userManager.GetUserStatusById(user.UserStatusId).StatusDescription,
+                    Role = string.Join<string>(",", await userManager.GetRolesAsync(user)),
+                    WorkGroup = $"{userManager.GetWorkGroupById(user.WorkGroupId).WorkGroupNumber} - {userManager.GetWorkGroupById(user.WorkGroupId).WorkGroupName}",
+                    CardCount = userManager.GetCardsByUser(user).Count()
+                });
+            }
 
             return returnList;
         }
 
         // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public ApiInputUserModel Get(string id)
+        [HttpGet("{UserName}")]
+        public async Task<ApiOutputUserModel> GetAsync(string UserName)
         {
-            return null;
+            var user = await userManager.FindByNameAsync(UserName);
+
+            return new ApiOutputUserModel() 
+            {
+                Email = user.Email,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserStatus = userManager.GetUserStatusById(user.UserStatusId).StatusDescription,
+                Role = string.Join<string>(",", await userManager.GetRolesAsync(user)),
+                WorkGroup = $"{userManager.GetWorkGroupById(user.WorkGroupId).WorkGroupNumber} - {userManager.GetWorkGroupById(user.WorkGroupId).WorkGroupName}",
+                CardCount = userManager.GetCardsByUser(user).Count()
+            };
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> PostAsync([FromBody] ApiInputUserModel value)
         {
+            if (!applicationIdentityContext.Users.Where(x => x.Email == value.Email).Any())
+                return BadRequest($"User already exist - with InputValue: {value.Email}");
+
+            if (!applicationIdentityContext.Users.Where(x => x.UserName == value.UserName).Any())
+                return BadRequest($"User already exist - with InputValue: {value.UserName}");
+
+            if (!applicationIdentityContext.UserStatuses.Where(x => x.StatusDescription == value.UserStatus).Any())
+                return BadRequest($"UserStatus does not exist - InputValue: {value.UserStatus}");
+
+            if (!applicationIdentityContext.Roles.Where(x => x.Name == value.Role).Any())
+                return BadRequest($"Role does not exist - InputValue: {value.Role}");
+
+            if (!applicationIdentityContext.WorkGroups.Where(x => x.WorkGroupNumber == value.WorkGroupNumber).Any())
+                return BadRequest($"WorkGroupNumber does not exist - InputValue: {value.WorkGroupNumber}");
+
+            var result = await userManager.CreateAsync(new ApplicationUser()
+            {
+                Email = value.Email,
+                UserName = value.UserName,
+                FirstName = value.FirstName,
+                LastName = value.LastName,
+                Status = userManager.GetUserStatuses().Where(x => x.StatusDescription == value.UserStatus).FirstOrDefault(),
+                WorkGroup = userManager.GetWorkGroupByWorkGroupNumber(value.WorkGroupNumber)
+            }, "UserPass@DSB");
+
+            if (result.Succeeded)
+            {
+                var addRoleResult = await userManager.AddToRoleAsync(await userManager.FindByNameAsync(value.UserName), value.Role);
+                if (!addRoleResult.Succeeded)
+                {
+                    return BadRequest(addRoleResult.Errors);
+                }
+            }
+            else
+                return BadRequest(result.Errors);
+
+            return Ok();
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{UserName}")]
+        public async Task<IActionResult> PutAsync(string UserName, [FromBody] ApiInputUserModel value)
         {
+            if (applicationIdentityContext.Users.Where(x => x.Email == value.Email).Any())
+                return BadRequest($"User does not exist - with InputValue: {value.Email}");
+
+            if (applicationIdentityContext.Users.Where(x => x.UserName == value.UserName).Any())
+                return BadRequest($"User does not exist - with InputValue: {value.UserName}");
+
+            if (!applicationIdentityContext.UserStatuses.Where(x => x.StatusDescription == value.UserStatus).Any())
+                return BadRequest($"UserStatus does not exist - InputValue: {value.UserStatus}");
+
+            if (!applicationIdentityContext.Roles.Where(x => x.Name == value.Role).Any())
+                return BadRequest($"Role does not exist - InputValue: {value.Role}");
+
+            if (!applicationIdentityContext.WorkGroups.Where(x => x.WorkGroupNumber == value.WorkGroupNumber).Any())
+                return BadRequest($"WorkGroupNumber does not exist - InputValue: {value.WorkGroupNumber}");
+
+            var user = await userManager.FindByNameAsync(value.UserName);
+
+            user.Email = value.Email;
+            user.UserName = value.UserName;
+            user.UserStatusId = userManager.GetUserStatusByUser(user).UserStatusId;
+            user.FirstName = value.FirstName;
+            user.LastName = value.LastName;
+            user.WorkGroupId = userManager.GetWorkGroupByUser(user).WorkGroupId;
+
+            var userRoles = await userManager.GetRolesAsync(user);
+            if (!userRoles.Contains(value.Role))
+            {
+                var removeResult = await userManager.RemoveFromRolesAsync(user, userRoles);
+                if (removeResult.Succeeded)
+                {
+                    var addResult = await userManager.AddToRoleAsync(user, value.Role);
+                    if (!addResult.Succeeded)
+                    {
+                        return BadRequest(addResult.Errors);
+                    }
+                }
+                else
+                    return BadRequest(removeResult.Errors);
+            }
+
+            return Ok();
         }
 
         // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{UserName}")]
+        public async Task<IActionResult> DeleteAsync(string UserName)
         {
+            if (!applicationIdentityContext.Users.Where(x => x.UserName == UserName).Any())
+                return BadRequest($"User already exist - with InputValue: {UserName}");
+
+            var user = await userManager.FindByNameAsync(UserName);
+
+            user.UserStatusId = userManager.GetUserStatuses().Where(x => x.StatusDescription == "Inactive").FirstOrDefault().UserStatusId;
+
+            return Ok();
         }
 
         #endregion

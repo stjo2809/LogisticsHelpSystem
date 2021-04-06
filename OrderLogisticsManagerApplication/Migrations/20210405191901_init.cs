@@ -25,40 +25,40 @@ namespace OrderLogisticsManagerApplication.Migrations
                 name: "CardStatuses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    CardStatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StatusDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CardStatuses", x => x.ID);
+                    table.PrimaryKey("PK_CardStatuses", x => x.CardStatusId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserStatuses",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    UserStatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StatusDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserStatuses", x => x.ID);
+                    table.PrimaryKey("PK_UserStatuses", x => x.UserStatusId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "WorkGroups",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    WorkGroupId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WorkGroupNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WorkGroupName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkGroups", x => x.ID);
+                    table.PrimaryKey("PK_WorkGroups", x => x.WorkGroupId);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,8 +89,8 @@ namespace OrderLogisticsManagerApplication.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    StatusID = table.Column<int>(type: "int", nullable: false),
-                    WorkGroupID = table.Column<int>(type: "int", nullable: false),
+                    UserStatusId = table.Column<int>(type: "int", nullable: false),
+                    WorkGroupId = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -110,16 +110,16 @@ namespace OrderLogisticsManagerApplication.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_UserStatuses_StatusID",
-                        column: x => x.StatusID,
+                        name: "FK_AspNetUsers_UserStatuses_UserStatusId",
+                        column: x => x.UserStatusId,
                         principalTable: "UserStatuses",
-                        principalColumn: "ID",
+                        principalColumn: "UserStatusId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_WorkGroups_WorkGroupID",
-                        column: x => x.WorkGroupID,
+                        name: "FK_AspNetUsers_WorkGroups_WorkGroupId",
+                        column: x => x.WorkGroupId,
                         principalTable: "WorkGroups",
-                        principalColumn: "ID",
+                        principalColumn: "WorkGroupId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -212,15 +212,15 @@ namespace OrderLogisticsManagerApplication.Migrations
                 name: "Card",
                 columns: table => new
                 {
-                    CardID = table.Column<int>(type: "int", nullable: false)
+                    CardId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CardNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StatusID = table.Column<int>(type: "int", nullable: false),
+                    CardStatusId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Card", x => x.CardID);
+                    table.PrimaryKey("PK_Card", x => x.CardId);
                     table.ForeignKey(
                         name: "FK_Card_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -228,10 +228,10 @@ namespace OrderLogisticsManagerApplication.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Card_CardStatuses_StatusID",
-                        column: x => x.StatusID,
+                        name: "FK_Card_CardStatuses_CardStatusId",
+                        column: x => x.CardStatusId,
                         principalTable: "CardStatuses",
-                        principalColumn: "ID",
+                        principalColumn: "CardStatusId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -268,14 +268,14 @@ namespace OrderLogisticsManagerApplication.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_StatusID",
+                name: "IX_AspNetUsers_UserStatusId",
                 table: "AspNetUsers",
-                column: "StatusID");
+                column: "UserStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_WorkGroupID",
+                name: "IX_AspNetUsers_WorkGroupId",
                 table: "AspNetUsers",
-                column: "WorkGroupID");
+                column: "WorkGroupId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -285,9 +285,9 @@ namespace OrderLogisticsManagerApplication.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Card_StatusID",
+                name: "IX_Card_CardStatusId",
                 table: "Card",
-                column: "StatusID");
+                column: "CardStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Card_UserId",

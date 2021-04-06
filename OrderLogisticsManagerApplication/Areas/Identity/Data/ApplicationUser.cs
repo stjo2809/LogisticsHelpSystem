@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -18,9 +19,11 @@ namespace OrderLogisticsManagerApplication.Areas.Identity.Data
         [MaxLength(50)]
         public string LastName { get; set; }
 
+        public int UserStatusId { get; set; }
         [Required]
         public UserStatus Status { get; set; }
 
+        public int WorkGroupId { get; set; }
         [Required]
         public WorkGroup WorkGroup { get; set; }
 

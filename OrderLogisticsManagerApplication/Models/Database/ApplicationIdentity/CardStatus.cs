@@ -9,7 +9,7 @@ namespace OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity
     public class CardStatus
     {
         [Key]
-        public int ID { get; set; }
+        public int CardStatusId { get; set; }
         
         [Required]
         public string StatusDescription { get; set; }

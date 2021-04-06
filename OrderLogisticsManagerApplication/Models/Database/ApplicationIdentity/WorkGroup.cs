@@ -11,7 +11,7 @@ namespace OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity
     public class WorkGroup
     {
         [Key]
-        public int ID { get; set; }
+        public int WorkGroupId { get; set; }
         [Required]
         public string WorkGroupNumber { get; set; }
         [Required]

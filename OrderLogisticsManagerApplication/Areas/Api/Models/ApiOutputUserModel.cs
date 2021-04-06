@@ -23,7 +23,5 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Models
         public string WorkGroup { get; set; }
 
         public int CardCount { get; set; }
-
-        public bool HasActiveCard { get; set; }
     }
 }

@@ -25,6 +25,9 @@ namespace OrderLogisticsManagerApplication.Models
             this.services = services;
         }
 
+        // TODO GET ROLE things
+        
+
         #region Card
         public IEnumerable<Card> GetCardsByUser(ApplicationUser applicationUser)
         {
@@ -71,7 +74,7 @@ namespace OrderLogisticsManagerApplication.Models
         {
             var applicationIdentityContext = services.GetRequiredService<ApplicationIdentityContext>();
 
-            return applicationIdentityContext.CardStatuses.Where(x => x.ID == id).FirstOrDefault();
+            return applicationIdentityContext.CardStatuses.Where(x => x.CardStatusId == id).FirstOrDefault();
         }
 
         public IEnumerable<CardStatus> GetCardStatuses()
@@ -96,7 +99,14 @@ namespace OrderLogisticsManagerApplication.Models
         {
             var applicationIdentityContext = services.GetRequiredService<ApplicationIdentityContext>();
 
-            return applicationIdentityContext.UserStatuses.Where(x => x.ID == id).FirstOrDefault();
+            return applicationIdentityContext.UserStatuses.Where(x => x.UserStatusId == id).FirstOrDefault();
+        }
+
+        public UserStatus GetUserStatusByUser(ApplicationUser applicationUser)
+        {
+            var applicationIdentityContext = services.GetRequiredService<ApplicationIdentityContext>();
+
+            return applicationIdentityContext.UserStatuses.Where(x => x.UserStatusId == applicationUser.UserStatusId).FirstOrDefault();
         }
 
         public IEnumerable<UserStatus> GetUserStatuses()
@@ -121,7 +131,14 @@ namespace OrderLogisticsManagerApplication.Models
         {
             var applicationIdentityContext = services.GetRequiredService<ApplicationIdentityContext>();
 
-            return applicationIdentityContext.WorkGroups.Where(x => x.ID == id).FirstOrDefault();
+            return applicationIdentityContext.WorkGroups.Where(x => x.WorkGroupId == id).FirstOrDefault();
+        }
+
+        public WorkGroup GetWorkGroupByUser(ApplicationUser applicationUser)
+        {
+            var applicationIdentityContext = services.GetRequiredService<ApplicationIdentityContext>();
+
+            return applicationIdentityContext.WorkGroups.Where(x => x.WorkGroupId == applicationUser.WorkGroupId).FirstOrDefault();
         }
 
         public WorkGroup GetWorkGroupByWorkGroupNumber(string workGroupNumber)
