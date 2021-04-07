@@ -17,6 +17,6 @@ namespace OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity
         [Required]
         public string WorkGroupName { get; set; }
 
-        public ICollection<ApplicationUser> Users { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
     }
 }

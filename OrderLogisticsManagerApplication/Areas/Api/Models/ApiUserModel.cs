@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace OrderLogisticsManagerApplication.Areas.Api.Models
 {
-    public class ApiInputUserModel
+    public class ApiUserModel
     {
+        
+        public string UserId { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }

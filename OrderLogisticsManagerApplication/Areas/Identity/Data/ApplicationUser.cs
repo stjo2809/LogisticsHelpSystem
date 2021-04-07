@@ -27,8 +27,8 @@ namespace OrderLogisticsManagerApplication.Areas.Identity.Data
         [Required]
         public WorkGroup WorkGroup { get; set; }
 
-        public ICollection<Card> Cards { get; set; }
+        public virtual ICollection<Card> Cards { get; set; }
 
-        public string FullName { get { return $"{ FirstName } { LastName }"; } }
+        public virtual string FullName { get { return $"{ FirstName } { LastName }"; } }
     }
 }

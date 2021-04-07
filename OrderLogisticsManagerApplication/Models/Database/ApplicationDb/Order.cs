@@ -32,10 +32,10 @@ namespace OrderLogisticsManagerApplication.Models.Database.ApplicationDb
         [Required]
         public User OrderEnteredBy { get; set; }
 
-        public ICollection<Delivery> Delivered { get; set; }
+        public virtual ICollection<Delivery> Delivered { get; set; }
 
-        public ICollection<PickupRequest> PickupRequested { get; set; }
+        public virtual ICollection<PickupRequest> PickupRequested { get; set; }
 
-        public ICollection<PackingMaterialUsedOnOrder> PackingMaterialUsed { get; set; }
+        public virtual ICollection<PackingMaterialUsedOnOrder> PackingMaterialUsed { get; set; }
     }
 }

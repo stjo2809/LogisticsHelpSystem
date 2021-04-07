@@ -17,6 +17,6 @@ namespace OrderLogisticsManagerApplication.Models.Database.ApplicationDb
         [Required]
         public DateTime PickupTime { get; set; }
 
-        ICollection<PickupRequest> PickupRequests { get; set; }
+        public virtual ICollection<PickupRequest> PickupRequests { get; set; }
     }
 }

@@ -14,6 +14,6 @@ namespace OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity
         [Required]
         public String StatusDescription { get; set; }
 
-        public ICollection<ApplicationUser> Users { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
     }
 }

@@ -25,6 +25,6 @@ namespace OrderLogisticsManagerApplication.Models.Database.ApplicationDb
 
         public float ComponentWeigth { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

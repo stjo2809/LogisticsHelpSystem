@@ -29,26 +29,24 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             this.userManager = userManager;
         }
 
-        #region User
-
         // GET: api/<UserController>
         [HttpGet]
-        public async Task<IEnumerable<ApiOutputUserModel>> GetAsync()
+        public async Task<IEnumerable<ApiUserModel>> Get()
         {
-            List<ApiOutputUserModel> returnList = new();
+            List<ApiUserModel> returnList = new();
 
             foreach (var user in userManager.Users)
             {
-                returnList.Add(new ApiOutputUserModel()
+                returnList.Add(new ApiUserModel()
                 {
+                    UserId = user.Id,
                     Email = user.Email,
                     UserName = user.UserName,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     UserStatus = userManager.GetUserStatusById(user.UserStatusId).StatusDescription,
                     Role = string.Join<string>(",", await userManager.GetRolesAsync(user)),
-                    WorkGroup = $"{userManager.GetWorkGroupById(user.WorkGroupId).WorkGroupNumber} - {userManager.GetWorkGroupById(user.WorkGroupId).WorkGroupName}",
-                    CardCount = userManager.GetCardsByUser(user).Count()
+                    WorkGroupNumber = userManager.GetWorkGroupById(user.WorkGroupId).WorkGroupNumber                    
                 });
             }
 
@@ -56,27 +54,27 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         }
 
         // GET api/<UserController>/5
-        [HttpGet("{UserName}")]
-        public async Task<ApiOutputUserModel> GetAsync(string UserName)
+        [HttpGet("{id}")]
+        public async Task<ApiUserModel> GetAsync(string id)
         {
-            var user = await userManager.FindByNameAsync(UserName);
+            var user = await userManager.FindByIdAsync(id);
 
-            return new ApiOutputUserModel() 
+            return new ApiUserModel() 
             {
+                UserId = user.Id,
                 Email = user.Email,
                 UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 UserStatus = userManager.GetUserStatusById(user.UserStatusId).StatusDescription,
                 Role = string.Join<string>(",", await userManager.GetRolesAsync(user)),
-                WorkGroup = $"{userManager.GetWorkGroupById(user.WorkGroupId).WorkGroupNumber} - {userManager.GetWorkGroupById(user.WorkGroupId).WorkGroupName}",
-                CardCount = userManager.GetCardsByUser(user).Count()
+                WorkGroupNumber = userManager.GetWorkGroupById(user.WorkGroupId).WorkGroupNumber
             };
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] ApiInputUserModel value)
+        public async Task<IActionResult> PostAsync([FromBody] ApiUserModel value)
         {
             if (!applicationIdentityContext.Users.Where(x => x.Email == value.Email).Any())
                 return BadRequest($"User already exist - with InputValue: {value.Email}");
@@ -118,8 +116,8 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{UserName}")]
-        public async Task<IActionResult> PutAsync(string UserName, [FromBody] ApiInputUserModel value)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(string id, [FromBody] ApiUserModel value)
         {
             if (applicationIdentityContext.Users.Where(x => x.Email == value.Email).Any())
                 return BadRequest($"User does not exist - with InputValue: {value.Email}");
@@ -136,7 +134,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             if (!applicationIdentityContext.WorkGroups.Where(x => x.WorkGroupNumber == value.WorkGroupNumber).Any())
                 return BadRequest($"WorkGroupNumber does not exist - InputValue: {value.WorkGroupNumber}");
 
-            var user = await userManager.FindByNameAsync(value.UserName);
+            var user = await userManager.FindByIdAsync(id);
 
             user.Email = value.Email;
             user.UserName = value.UserName;
@@ -145,53 +143,41 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             user.LastName = value.LastName;
             user.WorkGroupId = userManager.GetWorkGroupByUser(user).WorkGroupId;
 
+            var updateResult = await userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+                return BadRequest(updateResult.Errors);
+
             var userRoles = await userManager.GetRolesAsync(user);
             if (!userRoles.Contains(value.Role))
             {
                 var removeResult = await userManager.RemoveFromRolesAsync(user, userRoles);
-                if (removeResult.Succeeded)
-                {
-                    var addResult = await userManager.AddToRoleAsync(user, value.Role);
-                    if (!addResult.Succeeded)
-                    {
-                        return BadRequest(addResult.Errors);
-                    }
-                }
-                else
+                if (!removeResult.Succeeded)
                     return BadRequest(removeResult.Errors);
+                
+                var addResult = await userManager.AddToRoleAsync(user, value.Role);
+                if (!addResult.Succeeded)
+                    return BadRequest(addResult.Errors);
             }
 
             return Ok();
         }
 
         // DELETE api/<UserController>/5
-        [HttpDelete("{UserName}")]
-        public async Task<IActionResult> DeleteAsync(string UserName)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(string id)
         {
-            if (!applicationIdentityContext.Users.Where(x => x.UserName == UserName).Any())
-                return BadRequest($"User already exist - with InputValue: {UserName}");
+            if (!applicationIdentityContext.Users.Where(x => x.Id == id).Any())
+                return BadRequest($"User does not exist - with InputValue: {id}");
 
-            var user = await userManager.FindByNameAsync(UserName);
+            var user = await userManager.FindByIdAsync(id);
 
             user.UserStatusId = userManager.GetUserStatuses().Where(x => x.StatusDescription == "Inactive").FirstOrDefault().UserStatusId;
 
+            var updateResult = await userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+                return BadRequest(updateResult.Errors);
+
             return Ok();
         }
-
-        #endregion
-
-        #region UserStatus
-
-        #endregion
-
-        #region Card
-
-        #endregion
-
-        #region CardStatus
-
-        #endregion
-
-
     }
 }

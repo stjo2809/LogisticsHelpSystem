@@ -27,6 +27,6 @@ namespace OrderLogisticsManagerApplication.Models.Database.ApplicationDb
 
         public float MaterialWeigth { get; set; }
 
-        public ICollection<PackingMaterialUsedOnOrder> packingMaterialUsedOnOrders { get; set; }
+        public virtual ICollection<PackingMaterialUsedOnOrder> packingMaterialUsedOnOrders { get; set; }
     }
 }
