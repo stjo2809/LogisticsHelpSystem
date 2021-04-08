@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OrderLogisticsManagerApplication.Models.Database.ApplicationDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,13 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
     [ApiController]
     public class ComponentController : ControllerBase
     {
+        private readonly ApplicationDbContext applicationDbContext;
+
+        public ComponentController(ApplicationDbContext applicationDbContext)
+        {
+            this.applicationDbContext = applicationDbContext;
+        }
+
         // GET: api/<ComponentController>
         [HttpGet]
         public IEnumerable<string> Get()

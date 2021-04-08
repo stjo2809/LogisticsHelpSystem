@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OrderLogisticsManagerApplication.Areas.Api.Models;
+using OrderLogisticsManagerApplication.Data;
+using OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +15,83 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
     [ApiController]
     public class UserStatusController : ControllerBase
     {
+        private readonly ApplicationIdentityContext applicationIdentityContext;
+
+        public UserStatusController(ApplicationIdentityContext applicationIdentityContext)
+        {
+            this.applicationIdentityContext = applicationIdentityContext;
+        }
+
         // GET: api/<UserStatusController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<ApiUserStatusModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            List<ApiUserStatusModel> returnList = new();
+
+            foreach (var userStatus in applicationIdentityContext.UserStatuses)
+            {
+                returnList.Add(new ApiUserStatusModel()
+                {
+                    UserStatusId = userStatus.UserStatusId,
+                    StatusDescription = userStatus.StatusDescription
+                });
+            }
+
+            return returnList;
         }
 
         // GET api/<UserStatusController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ApiUserStatusModel Get(int id)
         {
-            return "value";
+            var userStatus = applicationIdentityContext.UserStatuses.Where(x => x.UserStatusId == id).FirstOrDefault();
+
+            return new ApiUserStatusModel()
+            {
+                UserStatusId = userStatus.UserStatusId,
+                StatusDescription = userStatus.StatusDescription
+            };
         }
 
         // POST api/<UserStatusController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] string statusDescription)
         {
+            applicationIdentityContext.Add(new UserStatus() { StatusDescription = statusDescription });
+            applicationIdentityContext.SaveChanges();
+
+            return Ok();
         }
 
         // PUT api/<UserStatusController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] string statusDescription)
         {
+            if (!applicationIdentityContext.UserStatuses.Where(x => x.UserStatusId == id).Any())
+                return BadRequest($"UserStatus does not exist");
+
+            var userStatus = applicationIdentityContext.UserStatuses.Where(x => x.UserStatusId == id).FirstOrDefault();
+            userStatus.StatusDescription = statusDescription;
+            applicationIdentityContext.Update(userStatus);
+            applicationIdentityContext.SaveChanges();
+
+            return Ok();
         }
 
         // DELETE api/<UserStatusController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var userStatus = applicationIdentityContext.UserStatuses.Where(x => x.UserStatusId == id).FirstOrDefault();
+            if (userStatus.Users.Count() == 0)
+            {
+                applicationIdentityContext.Remove(userStatus);
+                applicationIdentityContext.SaveChanges();
+            }
+            else
+                return BadRequest("The UserStatus has users that uses it, therefore is not deleted.");
+
+            return Ok();
         }
     }
 }
