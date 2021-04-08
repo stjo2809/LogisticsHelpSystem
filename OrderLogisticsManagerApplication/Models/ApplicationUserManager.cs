@@ -25,9 +25,6 @@ namespace OrderLogisticsManagerApplication.Models
             this.services = services;
         }
 
-        // TODO GET ROLE things
-        
-
         #region Card
         public IEnumerable<Card> GetCardsByUser(ApplicationUser applicationUser)
         {
@@ -48,6 +45,13 @@ namespace OrderLogisticsManagerApplication.Models
             var applicationIdentityContext = services.GetRequiredService<ApplicationIdentityContext>();
 
             return applicationIdentityContext.Card;
+        }
+
+        public Card GetCardById(int id)
+        {
+            var applicationIdentityContext = services.GetRequiredService<ApplicationIdentityContext>();
+
+            return applicationIdentityContext.Card.Where(x => x.CardId == id).FirstOrDefault();
         }
 
         public void CreateCard(string cardNumber, CardStatus status, ApplicationUser applicationUser)
