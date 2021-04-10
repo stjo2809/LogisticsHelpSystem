@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
 {
+    [ApiKeyAuth]
     [Route("api/[controller]")]
     [ApiController]
     public class UserStatusController : ControllerBase
