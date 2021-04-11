@@ -1,0 +1,60 @@
+﻿@page
+@model OrderLogisticsManagerApplication.Pages.Office.Components.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Component</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Component.ComponentPartNumber" class="control-label"></label>
+                <input asp-for="Component.ComponentPartNumber" class="form-control" />
+                <span asp-validation-for="Component.ComponentPartNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Component.ComponentName" class="control-label"></label>
+                <input asp-for="Component.ComponentName" class="form-control" />
+                <span asp-validation-for="Component.ComponentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Component.ComponentWidth" class="control-label"></label>
+                <input asp-for="Component.ComponentWidth" class="form-control" />
+                <span asp-validation-for="Component.ComponentWidth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Component.ComponentHeigth" class="control-label"></label>
+                <input asp-for="Component.ComponentHeigth" class="form-control" />
+                <span asp-validation-for="Component.ComponentHeigth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Component.ComponentDepth" class="control-label"></label>
+                <input asp-for="Component.ComponentDepth" class="form-control" />
+                <span asp-validation-for="Component.ComponentDepth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Component.ComponentWeigth" class="control-label"></label>
+                <input asp-for="Component.ComponentWeigth" class="form-control" />
+                <span asp-validation-for="Component.ComponentWeigth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

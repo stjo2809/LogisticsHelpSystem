@@ -1,0 +1,73 @@
+﻿@page
+@model OrderLogisticsManagerApplication.Pages.Office.PackingMaterials.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PackingMaterial[0].MaterialPartNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackingMaterial[0].MaterialName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackingMaterial[0].HasDimension)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackingMaterial[0].MaterialWidth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackingMaterial[0].MaterialHeigth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackingMaterial[0].MaterialDepth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackingMaterial[0].MaterialWeigth)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.PackingMaterial) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaterialPartNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaterialName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasDimension)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaterialWidth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaterialHeigth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaterialDepth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaterialWeigth)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.MaterialID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.MaterialID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.MaterialID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

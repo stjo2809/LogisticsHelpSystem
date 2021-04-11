@@ -1,0 +1,67 @@
+﻿@page
+@model OrderLogisticsManagerApplication.Pages.Office.Components.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Component[0].ComponentPartNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Component[0].ComponentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Component[0].ComponentWidth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Component[0].ComponentHeigth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Component[0].ComponentDepth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Component[0].ComponentWeigth)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Component) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComponentPartNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComponentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComponentWidth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComponentHeigth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComponentDepth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComponentWeigth)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ComponentID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ComponentID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ComponentID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

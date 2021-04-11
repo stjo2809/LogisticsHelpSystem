@@ -1,0 +1,61 @@
+﻿@page
+@model OrderLogisticsManagerApplication.Pages.Office.Orders.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].OrderNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].OrderFeedbackNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].OrderAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].OrderStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].OrderEndDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Order) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderFeedbackNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderEndDate)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.OrderID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.OrderID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.OrderID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

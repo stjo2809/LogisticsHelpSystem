@@ -1,0 +1,65 @@
+﻿@page
+@model OrderLogisticsManagerApplication.Pages.Office.PackingMaterials.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>PackingMaterial</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PackingMaterial.MaterialPartNumber" class="control-label"></label>
+                <input asp-for="PackingMaterial.MaterialPartNumber" class="form-control" />
+                <span asp-validation-for="PackingMaterial.MaterialPartNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PackingMaterial.MaterialName" class="control-label"></label>
+                <input asp-for="PackingMaterial.MaterialName" class="form-control" />
+                <span asp-validation-for="PackingMaterial.MaterialName" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PackingMaterial.HasDimension" /> @Html.DisplayNameFor(model => model.PackingMaterial.HasDimension)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="PackingMaterial.MaterialWidth" class="control-label"></label>
+                <input asp-for="PackingMaterial.MaterialWidth" class="form-control" />
+                <span asp-validation-for="PackingMaterial.MaterialWidth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PackingMaterial.MaterialHeigth" class="control-label"></label>
+                <input asp-for="PackingMaterial.MaterialHeigth" class="form-control" />
+                <span asp-validation-for="PackingMaterial.MaterialHeigth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PackingMaterial.MaterialDepth" class="control-label"></label>
+                <input asp-for="PackingMaterial.MaterialDepth" class="form-control" />
+                <span asp-validation-for="PackingMaterial.MaterialDepth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PackingMaterial.MaterialWeigth" class="control-label"></label>
+                <input asp-for="PackingMaterial.MaterialWeigth" class="form-control" />
+                <span asp-validation-for="PackingMaterial.MaterialWeigth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
