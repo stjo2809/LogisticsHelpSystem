@@ -1,0 +1,55 @@
+﻿@page
+@model OrderLogisticsManagerApplication.Pages.Office.Logs.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Log[0].LogTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Log[0].LogAction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Log[0].LogOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Log[0].LogDescription)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Log) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogAction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogDescription)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.LogID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.LogID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.LogID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
