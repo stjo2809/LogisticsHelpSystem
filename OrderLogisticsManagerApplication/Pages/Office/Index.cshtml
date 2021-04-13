@@ -1,0 +1,22 @@
+﻿@page
+@model OrderLogisticsManagerApplication.Pages.Office.IndexModel
+@{
+    Layout = "_Layout";
+}
+
+<h1>Office Index</h1>
+
+<div>
+
+</div>
+<div>
+    <div>
+        <a class="btn btn-primary" asp-page="/Office/Orders/index">Orders</a>
+        <a class="btn btn-primary" asp-page="/Office/Users/index">Users</a>
+    </div>
+    <div>
+        <a class="btn btn-primary" asp-page="/Office/ApplicationLogs/index">Application Logs</a>
+        <a class="btn btn-primary" asp-page="/Office/Components/index">Components</a>
+        <a class="btn btn-primary" asp-page="/Office/PackingMaterials/index">Packing Materials</a>
+    </div>
+</div>

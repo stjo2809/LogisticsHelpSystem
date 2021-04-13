@@ -25,7 +25,7 @@
   <ItemGroup>
     <Folder Include="Areas\Api\Data\" />
     <Folder Include="Areas\Api\Views\" />
-    <Folder Include="Pages\Warehouse\" />
+    <Folder Include="Pages\Office\Users\" />
   </ItemGroup>
 
 </Project>

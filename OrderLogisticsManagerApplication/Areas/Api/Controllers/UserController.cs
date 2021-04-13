@@ -104,6 +104,11 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
 
             if (result.Succeeded)
             {
+                applicationDbContext.Users.Add(new User() 
+                { 
+                    ApplicationUserGUID = userManager.Users.Where(x => x.UserName == value.UserName).FirstOrDefault().Id
+                }); 
+
                 var addRoleResult = await userManager.AddToRoleAsync(await userManager.FindByNameAsync(value.UserName), value.Role);
                 if (!addRoleResult.Succeeded)
                 {

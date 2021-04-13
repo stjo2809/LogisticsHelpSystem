@@ -20,10 +20,12 @@ namespace OrderLogisticsManagerApplication.Areas.Identity.Data
         public string LastName { get; set; }
 
         public int UserStatusId { get; set; }
+
         [Required]
         public UserStatus Status { get; set; }
 
         public int WorkGroupId { get; set; }
+
         [Required]
         public WorkGroup WorkGroup { get; set; }
 
