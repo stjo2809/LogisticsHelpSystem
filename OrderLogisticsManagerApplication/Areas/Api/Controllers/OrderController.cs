@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OrderLogisticsManagerApplication.Areas.Api.Models;
-using OrderLogisticsManagerApplication.Models.Database.ApplicationDb;
+﻿using LogisticsHelpSystemLibrary.Models.Api;
+using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
+using LogisticsHelpSystemLibrary.Models.Filters;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,9 +38,10 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
                     OrderFeedbackNumber = order.OrderFeedbackNumber,
                     OrderAmount = order.OrderAmount,
                     ComponentId = order.Component.ComponentID,
+                    PriorityID = order.PriorityID,
                     OrderStartDate = order.OrderStartDate,
                     OrderEndDate = order.OrderEndDate,
-                    OrderEnteredByUserId = order.OrderEnteredBy.ApplicationUserGUID
+                    WorkGroupID = order.WorkGroupID                     
                 });
             }
 
@@ -59,9 +61,10 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
                 OrderFeedbackNumber = order.OrderFeedbackNumber,
                 OrderAmount = order.OrderAmount,
                 ComponentId = order.Component.ComponentID,
+                PriorityID = order.PriorityID,
                 OrderStartDate = order.OrderStartDate,
                 OrderEndDate = order.OrderEndDate,
-                OrderEnteredByUserId = order.OrderEnteredBy.ApplicationUserGUID
+                WorkGroupID = order.WorkGroupID
             };
         }
 
@@ -75,8 +78,11 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             if (!applicationDbContext.Components.Where(x => x.ComponentID == value.ComponentId).Any())
                 return BadRequest($"Component does not exist - with InputValue: {value.ComponentId}");
 
-            if (!applicationDbContext.Users.Where(x => x.ApplicationUserGUID == value.OrderEnteredByUserId).Any())
-                return BadRequest($"User does not exist - with InputValue: {value.OrderEnteredByUserId}");
+            if (!applicationDbContext.Priorities.Where(x => x.PriorityID == value.PriorityID).Any())
+                return BadRequest($"Priotity does not exist - with InputValue: {value.PriorityID}");
+
+            if (!applicationDbContext.WorkGroups.Where(x => x.WorkGroupId == value.WorkGroupID).Any())
+                return BadRequest($"WorkGroup does not exist - with InputValue: {value.WorkGroupID}");
 
             applicationDbContext.Add(new Order()
             {
@@ -84,9 +90,10 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
                 OrderFeedbackNumber = value.OrderFeedbackNumber,
                 OrderAmount = value.OrderAmount,
                 Component = applicationDbContext.Components.Where(x => x.ComponentID == value.ComponentId).FirstOrDefault(),
+                PriorityID = value.PriorityID,
                 OrderStartDate = value.OrderStartDate,
                 OrderEndDate = value.OrderEndDate,
-                OrderEnteredBy = applicationDbContext.Users.Where(x => x.ApplicationUserGUID == value.OrderEnteredByUserId).FirstOrDefault()                 
+                WorkGroupID = value.WorkGroupID
             });
 
             applicationDbContext.SaveChanges();
@@ -107,8 +114,11 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             if (!applicationDbContext.Components.Where(x => x.ComponentID == value.ComponentId).Any())
                 return BadRequest($"Component does not exist - with InputValue: {value.ComponentId}");
 
-            if (!applicationDbContext.Users.Where(x => x.ApplicationUserGUID == value.OrderEnteredByUserId).Any())
-                return BadRequest($"User does not exist - with InputValue: {value.OrderEnteredByUserId}");
+            if (!applicationDbContext.Priorities.Where(x => x.PriorityID == value.PriorityID).Any())
+                return BadRequest($"Priotity does not exist - with InputValue: {value.PriorityID}");
+
+            if (!applicationDbContext.WorkGroups.Where(x => x.WorkGroupId == value.WorkGroupID).Any())
+                return BadRequest($"WorkGroup does not exist - with InputValue: {value.WorkGroupID}");
 
             var order = applicationDbContext.Orders.Where(x => x.OrderID == id).FirstOrDefault();
 
@@ -116,9 +126,10 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             order.OrderFeedbackNumber = value.OrderFeedbackNumber;
             order.OrderAmount = value.OrderAmount;
             order.Component = applicationDbContext.Components.Where(x => x.ComponentID == value.ComponentId).FirstOrDefault();
+            order.Priority = applicationDbContext.Priorities.Where(x => x.PriorityID == value.PriorityID).FirstOrDefault();
             order.OrderStartDate = value.OrderStartDate;
             order.OrderEndDate = value.OrderEndDate;
-            order.OrderEnteredBy = applicationDbContext.Users.Where(x => x.ApplicationUserGUID == value.OrderEnteredByUserId).FirstOrDefault();
+            order.WorkGroup = applicationDbContext.WorkGroups.Where(x => x.WorkGroupId == value.WorkGroupID).FirstOrDefault();
 
             applicationDbContext.Update(order);
             applicationDbContext.SaveChanges();

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OrderLogisticsManagerApplication.Areas.Api.Models;
-using OrderLogisticsManagerApplication.Data;
-using OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity;
+﻿using LogisticsHelpSystemLibrary.Models.Api;
+using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
+using LogisticsHelpSystemLibrary.Models.Filters;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +16,11 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
     [ApiController]
     public class UserStatusController : ControllerBase
     {
-        private readonly ApplicationIdentityContext applicationIdentityContext;
+        private readonly ApplicationDbContext applicationDbContext;
 
-        public UserStatusController(ApplicationIdentityContext applicationIdentityContext)
+        public UserStatusController(ApplicationDbContext applicationDbContext)
         {
-            this.applicationIdentityContext = applicationIdentityContext;
+            this.applicationDbContext = applicationDbContext;
         }
 
         // GET: api/<UserStatusController>
@@ -29,7 +29,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         {
             List<ApiUserStatusModel> returnList = new();
 
-            foreach (var userStatus in applicationIdentityContext.UserStatuses)
+            foreach (var userStatus in applicationDbContext.UserStatuses)
             {
                 returnList.Add(new ApiUserStatusModel()
                 {
@@ -45,7 +45,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpGet("{id}")]
         public ApiUserStatusModel Get(int id)
         {
-            var userStatus = applicationIdentityContext.UserStatuses.Where(x => x.UserStatusId == id).FirstOrDefault();
+            var userStatus = applicationDbContext.UserStatuses.Where(x => x.UserStatusId == id).FirstOrDefault();
 
             return new ApiUserStatusModel()
             {
@@ -58,8 +58,8 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] string statusDescription)
         {
-            applicationIdentityContext.Add(new UserStatus() { StatusDescription = statusDescription });
-            applicationIdentityContext.SaveChanges();
+            applicationDbContext.Add(new UserStatus() { StatusDescription = statusDescription });
+            applicationDbContext.SaveChanges();
 
             return Ok();
         }
@@ -68,13 +68,13 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] string statusDescription)
         {
-            if (!applicationIdentityContext.UserStatuses.Where(x => x.UserStatusId == id).Any())
+            if (!applicationDbContext.UserStatuses.Where(x => x.UserStatusId == id).Any())
                 return BadRequest($"UserStatus does not exist");
 
-            var userStatus = applicationIdentityContext.UserStatuses.Where(x => x.UserStatusId == id).FirstOrDefault();
+            var userStatus = applicationDbContext.UserStatuses.Where(x => x.UserStatusId == id).FirstOrDefault();
             userStatus.StatusDescription = statusDescription;
-            applicationIdentityContext.Update(userStatus);
-            applicationIdentityContext.SaveChanges();
+            applicationDbContext.Update(userStatus);
+            applicationDbContext.SaveChanges();
 
             return Ok();
         }
@@ -83,11 +83,11 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var userStatus = applicationIdentityContext.UserStatuses.Where(x => x.UserStatusId == id).FirstOrDefault();
+            var userStatus = applicationDbContext.UserStatuses.Where(x => x.UserStatusId == id).FirstOrDefault();
             if (userStatus.Users.Count() == 0)
             {
-                applicationIdentityContext.Remove(userStatus);
-                applicationIdentityContext.SaveChanges();
+                applicationDbContext.Remove(userStatus);
+                applicationDbContext.SaveChanges();
             }
             else
                 return BadRequest("The UserStatus has users that uses it, therefore is not deleted.");

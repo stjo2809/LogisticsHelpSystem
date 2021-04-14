@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OrderLogisticsManagerApplication.Areas.Api.Models;
-using OrderLogisticsManagerApplication.Data;
-using OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity;
+﻿using LogisticsHelpSystemLibrary.Models.Api;
+using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
+using LogisticsHelpSystemLibrary.Models.Filters;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +16,11 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
     [ApiController]
     public class CardController : ControllerBase
     {
-        private readonly ApplicationIdentityContext applicationIdentityContext;
+        private readonly ApplicationDbContext applicationDbContext;
 
-        public CardController(ApplicationIdentityContext applicationIdentityContext)
+        public CardController(ApplicationDbContext applicationDbContext)
         {
-            this.applicationIdentityContext = applicationIdentityContext;
+            this.applicationDbContext = applicationDbContext;
         }
 
         // GET: api/<CardController>
@@ -29,7 +29,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         {
             List<ApiCardModel> returnList = new();
 
-            foreach (var card in applicationIdentityContext.Card)
+            foreach (var card in applicationDbContext.Card)
             {
                 returnList.Add(new ApiCardModel()
                 {
@@ -47,7 +47,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpGet("{id}")]
         public ApiCardModel Get(int id)
         {
-            var card = applicationIdentityContext.Card.Where(x => x.CardId == id).FirstOrDefault();
+            var card = applicationDbContext.Card.Where(x => x.CardId == id).FirstOrDefault();
 
             return new ApiCardModel()
             {
@@ -62,16 +62,16 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] ApiCardModel value)
         {
-            if (applicationIdentityContext.Card.Where(x => x.CardNumber == value.CardNumber).Any())
+            if (applicationDbContext.Card.Where(x => x.CardNumber == value.CardNumber).Any())
                 return BadRequest($"CardNumber already exist - with InputValue: {value.CardNumber}");
 
-            if (!applicationIdentityContext.Card.Where(x => x.CardStatusId == value.CardStatusId).Any())
+            if (!applicationDbContext.Card.Where(x => x.CardStatusId == value.CardStatusId).Any())
                 return BadRequest($"CardStatusId does not exist - with InputValue: {value.CardStatusId}");
 
-            if (!applicationIdentityContext.Card.Where(x => x.UserId == value.UserId).Any())
+            if (!applicationDbContext.Card.Where(x => x.UserId == value.UserId).Any())
                 return BadRequest($"User does not exist - with InputValue: {value.UserId}");
 
-            applicationIdentityContext.Add(new Card()
+            applicationDbContext.Add(new Card()
             {
                 CardId = value.CardId,
                 CardNumber = value.CardNumber,
@@ -79,7 +79,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
                 UserId = value.UserId
             });
 
-            applicationIdentityContext.SaveChanges();
+            applicationDbContext.SaveChanges();
 
             return Ok();
         }
@@ -88,23 +88,23 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ApiCardModel value)
         {
-            if (!applicationIdentityContext.Card.Where(x => x.CardId == id).Any())
+            if (!applicationDbContext.Card.Where(x => x.CardId == id).Any())
                 return BadRequest($"Card does not exist");
 
-            if (!applicationIdentityContext.Card.Where(x => x.CardStatusId == value.CardStatusId).Any())
+            if (!applicationDbContext.Card.Where(x => x.CardStatusId == value.CardStatusId).Any())
                 return BadRequest($"CardStatusId does not exist - with InputValue: {value.CardStatusId}");
 
-            if (!applicationIdentityContext.Card.Where(x => x.UserId == value.UserId).Any())
+            if (!applicationDbContext.Card.Where(x => x.UserId == value.UserId).Any())
                 return BadRequest($"User does not exist - with InputValue: {value.UserId}");
 
-            var card = applicationIdentityContext.Card.Where(x => x.CardId == id).FirstOrDefault();
+            var card = applicationDbContext.Card.Where(x => x.CardId == id).FirstOrDefault();
 
             card.CardNumber = value.CardNumber;
             card.CardStatusId = value.CardStatusId;
             card.UserId = value.UserId;
-            
-            applicationIdentityContext.Update(card);
-            applicationIdentityContext.SaveChanges();
+
+            applicationDbContext.Update(card);
+            applicationDbContext.SaveChanges();
 
             return Ok();
         }
@@ -113,15 +113,15 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (!applicationIdentityContext.Card.Where(x => x.CardId == id).Any())
+            if (!applicationDbContext.Card.Where(x => x.CardId == id).Any())
                 return BadRequest($"Card does not exist");
 
-            var card = applicationIdentityContext.Card.Where(x => x.CardId == id).FirstOrDefault();
+            var card = applicationDbContext.Card.Where(x => x.CardId == id).FirstOrDefault();
 
-            card.CardStatusId = applicationIdentityContext.CardStatuses.Where(x => x.StatusDescription == "Inactive").FirstOrDefault().CardStatusId;
+            card.CardStatusId = applicationDbContext.CardStatuses.Where(x => x.StatusDescription == "Inactive").FirstOrDefault().CardStatusId;
 
-            applicationIdentityContext.Update(card);
-            applicationIdentityContext.SaveChanges();
+            applicationDbContext.Update(card);
+            applicationDbContext.SaveChanges();
 
             return Ok();
         }

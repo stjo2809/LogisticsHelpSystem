@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OrderLogisticsManagerApplication.Areas.Api.Models;
-using OrderLogisticsManagerApplication.Data;
-using OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity;
+﻿using LogisticsHelpSystemLibrary.Models.Api;
+using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
+using LogisticsHelpSystemLibrary.Models.Filters;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +16,11 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
     [ApiController]
     public class CardStatusController : ControllerBase
     {
-        private readonly ApplicationIdentityContext applicationIdentityContext;
+        private readonly ApplicationDbContext applicationDbContext;
 
-        public CardStatusController(ApplicationIdentityContext applicationIdentityContext )
+        public CardStatusController(ApplicationDbContext applicationDbContext )
         {
-            this.applicationIdentityContext = applicationIdentityContext;
+            this.applicationDbContext = applicationDbContext;
         }
 
         // GET: api/<CardStatusController>
@@ -29,7 +29,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         {
             List<ApiCardStatusModel> returnList = new();
 
-            foreach (var cardStatus in applicationIdentityContext.CardStatuses)
+            foreach (var cardStatus in applicationDbContext.CardStatuses)
             {
                 returnList.Add(new ApiCardStatusModel()
                 {
@@ -45,7 +45,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpGet("{id}")]
         public ApiCardStatusModel Get(int id)
         {
-            var cardstatus = applicationIdentityContext.CardStatuses.Where(x => x.CardStatusId == id).FirstOrDefault();
+            var cardstatus = applicationDbContext.CardStatuses.Where(x => x.CardStatusId == id).FirstOrDefault();
 
             return new ApiCardStatusModel()
             {
@@ -58,8 +58,8 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] string statusDescription)
         {
-            applicationIdentityContext.Add(new CardStatus() { StatusDescription = statusDescription });
-            applicationIdentityContext.SaveChanges();
+            applicationDbContext.Add(new CardStatus() { StatusDescription = statusDescription });
+            applicationDbContext.SaveChanges();
 
             return Ok();
         }
@@ -68,10 +68,10 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] string statusDescription)
         {
-            var cardstatus = applicationIdentityContext.CardStatuses.Where(x => x.CardStatusId == id).FirstOrDefault();
+            var cardstatus = applicationDbContext.CardStatuses.Where(x => x.CardStatusId == id).FirstOrDefault();
             cardstatus.StatusDescription = statusDescription;
-            applicationIdentityContext.Update(cardstatus);
-            applicationIdentityContext.SaveChanges();
+            applicationDbContext.Update(cardstatus);
+            applicationDbContext.SaveChanges();
 
             return Ok();
         }
@@ -80,11 +80,11 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var cardstatus = applicationIdentityContext.CardStatuses.Where(x => x.CardStatusId == id).FirstOrDefault();
+            var cardstatus = applicationDbContext.CardStatuses.Where(x => x.CardStatusId == id).FirstOrDefault();
             if (cardstatus.Cards.Count() == 0)
             {
-                applicationIdentityContext.Remove(cardstatus);
-                applicationIdentityContext.SaveChanges();
+                applicationDbContext.Remove(cardstatus);
+                applicationDbContext.SaveChanges();
             }
             else
                 return BadRequest("The CardStatus has Cards that uses it, therefore is not deleted.");

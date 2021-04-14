@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using OrderLogisticsManagerApplication.Models.Database.ApplicationDb;
 
 namespace OrderLogisticsManagerApplication.Pages.Office.Components
 {
     public class DetailsModel : PageModel
     {
-        private readonly OrderLogisticsManagerApplication.Models.Database.ApplicationDb.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DetailsModel(OrderLogisticsManagerApplication.Models.Database.ApplicationDb.ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context)
         {
             _context = context;
         }

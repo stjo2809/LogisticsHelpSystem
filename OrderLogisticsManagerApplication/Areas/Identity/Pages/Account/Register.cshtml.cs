@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,9 +16,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using OrderLogisticsManagerApplication.Areas.Identity.Data;
-using OrderLogisticsManagerApplication.Data;
-using OrderLogisticsManagerApplication.Models;
-using OrderLogisticsManagerApplication.Models.Database.ApplicationDb;
 
 namespace OrderLogisticsManagerApplication.Areas.Identity.Pages.Account
 {
@@ -25,23 +23,20 @@ namespace OrderLogisticsManagerApplication.Areas.Identity.Pages.Account
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ApplicationUserManager _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly ApplicationDbContext _applicationDbContext;
 
         public RegisterModel(
-            ApplicationUserManager userManager,
+            UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, 
-            ApplicationDbContext applicationDbContext)
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _applicationDbContext = applicationDbContext;
         }
 
         [BindProperty]
@@ -62,22 +57,6 @@ namespace OrderLogisticsManagerApplication.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [Display(Name = "DSB UserName")]
-            public string UserName { get; set; }
-
-            [Required]
-            [MaxLength(50)]
-            public string FirstName { get; set; }
-
-            [Required]
-            [MaxLength(50)]
-            public string LastName { get; set; }
-
-            public int UserStatusId { get; set; }
-
-            public int WorkGroupId { get; set; }
-
-            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -93,20 +72,6 @@ namespace OrderLogisticsManagerApplication.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            SelectListsUserStatusId =  _userManager.GetUserStatuses()
-                .Select(a => new SelectListItem 
-                {
-                    Value = a.UserStatusId.ToString(),
-                    Text = $"{a.StatusDescription}"
-                }).ToList();
-
-            SelectListsWorkGroupId = _userManager.GetWorkGroups()
-                .Select(a => new SelectListItem
-                {
-                    Value = a.WorkGroupId.ToString(),
-                    Text = $"{a.WorkGroupNumber} - {a.WorkGroupName}"
-                }).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -118,18 +83,12 @@ namespace OrderLogisticsManagerApplication.Areas.Identity.Pages.Account
                 var user = new ApplicationUser
                 {
                     Email = Input.Email,
-                    UserName = Input.Email,
-                    FirstName = Input.FirstName,
-                    LastName = Input.LastName,
-                    WorkGroupId = Input.WorkGroupId,
-                    UserStatusId = Input.UserStatusId
+                    UserName = Input.Email
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _applicationDbContext.Users.Add(new User() { ApplicationUserGUID = user.Id});
-
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

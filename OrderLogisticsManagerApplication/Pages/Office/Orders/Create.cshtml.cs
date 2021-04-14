@@ -2,24 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
+using LogisticsHelpSystemLibrary.Models.Razor;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using OrderLogisticsManagerApplication.Models;
-using OrderLogisticsManagerApplication.Models.Database.ApplicationDb;
-using OrderLogisticsManagerApplication.Models.RazorPageModels;
 
 namespace OrderLogisticsManagerApplication.Pages.Office.Orders
 {
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private readonly ApplicationUserManager userManager;
 
-        public CreateModel(ApplicationDbContext context, ApplicationUserManager userManager)
+        public CreateModel(ApplicationDbContext context)
         {
             _context = context;
-            this.userManager = userManager;
         }
 
         public IActionResult OnGet()
@@ -38,7 +35,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Orders
                 return Page();
             }
 
-            var LoggedInUser = await userManager.FindByNameAsync(User.Identity.Name);
+            //var LoggedInUser =
 
             _context.Orders.Add(new Order()
             {
@@ -48,7 +45,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Orders
                 OrderAmount = Order.OrderAmount,
                 OrderStartDate = Order.OrderStartDate,
                 OrderEndDate = Order.OrderEndDate,
-                OrderEnteredBy = _context.Users.Where(x => x.ApplicationUserGUID == LoggedInUser.Id).FirstOrDefault()
+                //OrderEnteredBy = _context.Users.Where(x => x.ApplicationUserGUID == LoggedInUser.Id).FirstOrDefault()
             });
 
             await _context.SaveChangesAsync();

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OrderLogisticsManagerApplication.Areas.Api.Models;
-using OrderLogisticsManagerApplication.Data;
-using OrderLogisticsManagerApplication.Models.Database.ApplicationIdentity;
+﻿using LogisticsHelpSystemLibrary.Models.Api;
+using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
+using LogisticsHelpSystemLibrary.Models.Filters;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +16,11 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
     [ApiController]
     public class WorkGroupController : ControllerBase
     {
-        private readonly ApplicationIdentityContext applicationIdentityContext;
+        private readonly ApplicationDbContext applicationDbContext;
 
-        public WorkGroupController(ApplicationIdentityContext applicationIdentityContext)
+        public WorkGroupController(ApplicationDbContext applicationDbContext)
         {
-            this.applicationIdentityContext = applicationIdentityContext;
+            this.applicationDbContext = applicationDbContext;
         }
 
         // GET: api/<WorkGroupController>
@@ -29,7 +29,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         {
             List<ApiWorkGroupModel> returnList = new();
 
-            foreach (var workGroup in applicationIdentityContext.WorkGroups)
+            foreach (var workGroup in applicationDbContext.WorkGroups)
             {
                 returnList.Add(new ApiWorkGroupModel()
                 {
@@ -46,7 +46,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpGet("{id}")]
         public ApiWorkGroupModel Get(int id)
         {
-            var workGroup = applicationIdentityContext.WorkGroups.Where(x => x.WorkGroupId == id).FirstOrDefault();
+            var workGroup = applicationDbContext.WorkGroups.Where(x => x.WorkGroupId == id).FirstOrDefault();
 
             return new ApiWorkGroupModel()
             {
@@ -60,16 +60,16 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] ApiWorkGroupModel value)
         {
-            if (applicationIdentityContext.WorkGroups.Where(x => x.WorkGroupNumber == value.WorkGroupNumber).Any())
+            if (applicationDbContext.WorkGroups.Where(x => x.WorkGroupNumber == value.WorkGroupNumber).Any())
                 return BadRequest($"WorkGroupNumber already exist - with InputValue: {value.WorkGroupNumber}");
 
-            applicationIdentityContext.Add(new WorkGroup()
+            applicationDbContext.Add(new WorkGroup()
             {
                 WorkGroupNumber = value.WorkGroupNumber,
                 WorkGroupName = value.WorkGroupName
             });
 
-            applicationIdentityContext.SaveChanges();
+            applicationDbContext.SaveChanges();
 
             return Ok();
         }
@@ -78,15 +78,15 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ApiWorkGroupModel value)
         {
-            if (!applicationIdentityContext.WorkGroups.Where(x => x.WorkGroupId == id).Any())
+            if (!applicationDbContext.WorkGroups.Where(x => x.WorkGroupId == id).Any())
                 return BadRequest($"WorkGroup does not exist");
 
-            var workGroup = applicationIdentityContext.WorkGroups.Where(x => x.WorkGroupId == id).FirstOrDefault();
+            var workGroup = applicationDbContext.WorkGroups.Where(x => x.WorkGroupId == id).FirstOrDefault();
 
             workGroup.WorkGroupName = value.WorkGroupName;
             workGroup.WorkGroupNumber = value.WorkGroupNumber;
-            applicationIdentityContext.Update(workGroup);
-            applicationIdentityContext.SaveChanges();
+            applicationDbContext.Update(workGroup);
+            applicationDbContext.SaveChanges();
 
             return Ok();
         }
@@ -95,11 +95,11 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var workGroup = applicationIdentityContext.WorkGroups.Where(x => x.WorkGroupId == id).FirstOrDefault();
+            var workGroup = applicationDbContext.WorkGroups.Where(x => x.WorkGroupId == id).FirstOrDefault();
             if (workGroup.Users.Count() == 0)
             {
-                applicationIdentityContext.Remove(workGroup);
-                applicationIdentityContext.SaveChanges();
+                applicationDbContext.Remove(workGroup);
+                applicationDbContext.SaveChanges();
             }
             else
                 return BadRequest("The WorkGroup has users that uses it, therefore is not deleted.");

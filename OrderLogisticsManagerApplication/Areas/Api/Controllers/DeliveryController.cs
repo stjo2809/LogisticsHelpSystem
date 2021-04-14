@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OrderLogisticsManagerApplication.Areas.Api.Models;
-using OrderLogisticsManagerApplication.Models.Database.ApplicationDb;
+﻿using LogisticsHelpSystemLibrary.Models.Api;
+using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
+using LogisticsHelpSystemLibrary.Models.Filters;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
                 {
                      DeliveryID = delivery.DeliveryID,
                      OrderId = delivery.Order.OrderID,
-                     UserId = delivery.User.ApplicationUserGUID,
+                     UserId = delivery.User.UserID,
                      DeliveryAmount = delivery.DeliveryAmount,
                      DeliveryTime = delivery.DeliveryTime
                 });
@@ -53,7 +54,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             {
                 DeliveryID = delivery.DeliveryID,
                 OrderId = delivery.Order.OrderID,
-                UserId = delivery.User.ApplicationUserGUID,
+                UserId = delivery.User.UserID,
                 DeliveryAmount = delivery.DeliveryAmount,
                 DeliveryTime = delivery.DeliveryTime
             };
@@ -66,13 +67,13 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             if (!applicationDbContext.Orders.Where(x => x.OrderID == value.OrderId).Any())
                 return BadRequest($"Order does not exist - with InputValue: {value.OrderId}");
 
-            if (!applicationDbContext.Users.Where(x => x.ApplicationUserGUID == value.UserId).Any())
+            if (!applicationDbContext.Users.Where(x => x.UserID == value.UserId).Any())
                 return BadRequest($"User does not exist - with InputValue: {value.UserId}");
 
             applicationDbContext.Add(new Delivery()
             {
                 Order = applicationDbContext.Orders.Where(x => x.OrderID == value.OrderId).FirstOrDefault(),
-                User = applicationDbContext.Users.Where(x => x.ApplicationUserGUID == value.UserId).FirstOrDefault(),
+                User = applicationDbContext.Users.Where(x => x.UserID == value.UserId).FirstOrDefault(),
                 DeliveryAmount = value.DeliveryAmount,
                 DeliveryTime = value.DeliveryTime
             });
@@ -92,13 +93,13 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             if (!applicationDbContext.Orders.Where(x => x.OrderID == value.OrderId).Any())
                 return BadRequest($"Order does not exist - with InputValue: {value.OrderId}");
 
-            if (!applicationDbContext.Users.Where(x => x.ApplicationUserGUID == value.UserId).Any())
+            if (!applicationDbContext.Users.Where(x => x.UserID == value.UserId).Any())
                 return BadRequest($"User does not exist - with InputValue: {value.UserId}");
 
             var delivery = applicationDbContext.Deliveries.Where(x => x.DeliveryID == id).FirstOrDefault();
 
             delivery.Order = applicationDbContext.Orders.Where(x => x.OrderID == value.OrderId).FirstOrDefault();
-            delivery.User = applicationDbContext.Users.Where(x => x.ApplicationUserGUID == value.UserId).FirstOrDefault();
+            delivery.User = applicationDbContext.Users.Where(x => x.UserID == value.UserId).FirstOrDefault();
             delivery.DeliveryAmount = value.DeliveryAmount;
             delivery.DeliveryTime = value.DeliveryTime;
 

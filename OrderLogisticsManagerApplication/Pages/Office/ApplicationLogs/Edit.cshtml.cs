@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using OrderLogisticsManagerApplication.Models.Database.ApplicationDb;
 
 namespace OrderLogisticsManagerApplication.Pages.Office.Logs
 {
     public class EditModel : PageModel
     {
-        private readonly OrderLogisticsManagerApplication.Models.Database.ApplicationDb.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public EditModel(OrderLogisticsManagerApplication.Models.Database.ApplicationDb.ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context)
         {
             _context = context;
         }
