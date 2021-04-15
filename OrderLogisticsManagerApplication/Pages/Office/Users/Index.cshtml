@@ -15,22 +15,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].ApplicationUserGUID)
+                @Html.DisplayNameFor(model => model.Userlist[0].ApplicationUserGUID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].FirstName)
+                @Html.DisplayNameFor(model => model.Userlist[0].FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].LastName)
+                @Html.DisplayNameFor(model => model.Userlist[0].LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Status)
+                @Html.DisplayNameFor(model => model.Userlist[0].Status)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.User) {
+@foreach (var item in Model.Userlist) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ApplicationUserGUID)

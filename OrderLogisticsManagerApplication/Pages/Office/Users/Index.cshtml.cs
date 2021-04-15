@@ -18,11 +18,11 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Users
             _context = context;
         }
 
-        public IList<User> User { get;set; }
+        public IList<User> Userlist { get;set; }
 
         public async Task OnGetAsync()
         {
-            User = await _context.Users
+            Userlist = await _context.Users
                 .Include(u => u.Status).ToListAsync();
         }
     }

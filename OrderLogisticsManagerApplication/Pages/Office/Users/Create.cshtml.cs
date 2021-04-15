@@ -25,7 +25,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Users
         }
 
         [BindProperty]
-        public User User { get; set; }
+        public User TheUser { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -35,7 +35,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Users
                 return Page();
             }
 
-            _context.Users.Add(User);
+            _context.Users.Add(TheUser);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

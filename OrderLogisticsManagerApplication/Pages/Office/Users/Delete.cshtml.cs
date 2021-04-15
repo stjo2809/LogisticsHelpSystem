@@ -19,7 +19,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Users
         }
 
         [BindProperty]
-        public User User { get; set; }
+        public User TheUser { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,10 +28,10 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Users
                 return NotFound();
             }
 
-            User = await _context.Users
+            TheUser = await _context.Users
                 .Include(u => u.Status).FirstOrDefaultAsync(m => m.UserID == id);
 
-            if (User == null)
+            if (TheUser == null)
             {
                 return NotFound();
             }
@@ -45,11 +45,11 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Users
                 return NotFound();
             }
 
-            User = await _context.Users.FindAsync(id);
+            TheUser = await _context.Users.FindAsync(id);
 
-            if (User != null)
+            if (TheUser != null)
             {
-                _context.Users.Remove(User);
+                _context.Users.Remove(TheUser);
                 await _context.SaveChangesAsync();
             }
 

@@ -20,7 +20,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Users
         }
 
         [BindProperty]
-        public User User { get; set; }
+        public User TheUser { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,10 +29,10 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Users
                 return NotFound();
             }
 
-            User = await _context.Users
+            TheUser = await _context.Users
                 .Include(u => u.Status).FirstOrDefaultAsync(m => m.UserID == id);
 
-            if (User == null)
+            if (TheUser == null)
             {
                 return NotFound();
             }
@@ -49,7 +49,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Users
                 return Page();
             }
 
-            _context.Attach(User).State = EntityState.Modified;
+            _context.Attach(TheUser).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Users
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(User.UserID))
+                if (!UserExists(TheUser.UserID))
                 {
                     return NotFound();
                 }
