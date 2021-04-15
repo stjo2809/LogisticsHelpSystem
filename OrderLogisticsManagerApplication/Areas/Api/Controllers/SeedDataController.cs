@@ -49,28 +49,28 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             {
                 ComponentPartNumber = 100,
                 ComponentName = "Radio -> TestComponent",
-                ComponentHeigth = 30,
-                ComponentWidth = 40,
-                ComponentDepth = 30,
-                ComponentWeigth = 2.5,
+                ComponentHeigth = (float)30,
+                ComponentWidth = (float)40,
+                ComponentDepth = (float)30,
+                ComponentWeigth = (float)2.5,
             });
             applicationDbContext.Components.Add(new Component()
             {
                 ComponentPartNumber = 200,
                 ComponentName = "ATC hoveddatamat -> TestComponent",
-                ComponentHeigth = 50,
-                ComponentWidth = 60,
-                ComponentDepth = 50,
-                ComponentWeigth = 3.7,
+                ComponentHeigth = (float)50,
+                ComponentWidth = (float)60,
+                ComponentDepth = (float)50,
+                ComponentWeigth = (float)3.7,
             });
             applicationDbContext.Components.Add(new Component()
             {
                 ComponentPartNumber = 300,
                 ComponentName = "InformationsDisplay -> TestComponent",
-                ComponentHeigth = 30,
-                ComponentWidth = 120,
-                ComponentDepth = 15,
-                ComponentWeigth = 5,
+                ComponentHeigth = (float)30,
+                ComponentWidth = (float)120,
+                ComponentDepth = (float)15,
+                ComponentWeigth = (float)5,
             });
 
             // PackingMaterial
@@ -79,17 +79,17 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
                 MaterialPartNumber = 400,
                 MaterialName = "PapKasse -> TestMateriale",
                 HasDimension = true,
-                MaterialHeigth = 60,
-                MaterialWidth = 60,
-                MaterialDepth = 60,
-                MaterialWeigth = 0.5
+                MaterialHeigth = (float)60,
+                MaterialWidth = (float)60,
+                MaterialDepth = (float)60,
+                MaterialWeigth = (float)0.5
             });
             applicationDbContext.PackingMaterials.Add(new PackingMaterial()
             {
                 MaterialPartNumber = 500,
                 MaterialName = "Anti Statisk BoblePlast -> TestMateriale",
                 HasDimension = false,
-                MaterialWidth = 60
+                MaterialWidth = (float)60
             });
 
             // WorkGroup

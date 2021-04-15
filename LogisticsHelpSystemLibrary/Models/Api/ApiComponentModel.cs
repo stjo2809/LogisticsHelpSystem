@@ -16,12 +16,12 @@ namespace LogisticsHelpSystemLibrary.Models.Api
         [Required]
         public string ComponentName { get; set; }
 
-        public double? ComponentWidth { get; set; }
+        public float? ComponentWidth { get; set; }
 
-        public double? ComponentHeigth { get; set; }
+        public float? ComponentHeigth { get; set; }
 
-        public double? ComponentDepth { get; set; }
+        public float? ComponentDepth { get; set; }
 
-        public double? ComponentWeigth { get; set; }
+        public float? ComponentWeigth { get; set; }
     }
 }
