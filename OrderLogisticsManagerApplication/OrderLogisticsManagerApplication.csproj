@@ -19,6 +19,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
@@ -27,6 +28,7 @@
     <Folder Include="Areas\Api\Models\" />
     <Folder Include="Areas\Api\Views\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Pages\Office\ApplicationLogs\" />
     <Folder Include="Pages\Office\Users\" />
   </ItemGroup>
 

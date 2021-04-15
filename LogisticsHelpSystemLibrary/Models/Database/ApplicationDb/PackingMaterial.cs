@@ -19,13 +19,13 @@ namespace LogisticsHelpSystemLibrary.Models.Database.ApplicationDb
 
         public bool HasDimension { get; set; }
 
-        public float? MaterialWidth { get; set; }
+        public double? MaterialWidth { get; set; }
 
-        public float? MaterialHeigth { get; set; }
+        public double? MaterialHeigth { get; set; }
 
-        public float? MaterialDepth { get; set; }
+        public double? MaterialDepth { get; set; }
 
-        public float? MaterialWeigth { get; set; }
+        public double? MaterialWeigth { get; set; }
 
         public virtual ICollection<PackingMaterialUsedOnOrder> packingMaterialUsedOnOrders { get; set; }
     }
