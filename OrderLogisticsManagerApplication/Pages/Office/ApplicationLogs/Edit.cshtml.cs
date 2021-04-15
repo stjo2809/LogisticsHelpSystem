@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
 
-namespace OrderLogisticsManagerApplication.Pages.Office.Orders
+namespace OrderLogisticsManagerApplication.Pages.Office.ApplicationLogs
 {
     public class EditModel : PageModel
     {
@@ -20,7 +20,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Orders
         }
 
         [BindProperty]
-        public Order Order { get; set; }
+        public Log Log { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,18 +29,14 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Orders
                 return NotFound();
             }
 
-            Order = await _context.Orders
-                .Include(o => o.Component)
-                .Include(o => o.Priority)
-                .Include(o => o.WorkGroup).FirstOrDefaultAsync(m => m.OrderID == id);
+            Log = await _context.Logs
+                .Include(l => l.User).FirstOrDefaultAsync(m => m.LogID == id);
 
-            if (Order == null)
+            if (Log == null)
             {
                 return NotFound();
             }
-           ViewData["ComponentID"] = new SelectList(_context.Components, "ComponentID", "ComponentName");
-           ViewData["PriorityID"] = new SelectList(_context.Priorities, "PriorityID", "Description");
-           ViewData["WorkGroupID"] = new SelectList(_context.WorkGroups, "WorkGroupId", "WorkGroupName");
+           ViewData["UserID"] = new SelectList(_context.Users, "UserID", "ApplicationUserGUID");
             return Page();
         }
 
@@ -53,7 +49,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Orders
                 return Page();
             }
 
-            _context.Attach(Order).State = EntityState.Modified;
+            _context.Attach(Log).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +57,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Orders
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OrderExists(Order.OrderID))
+                if (!LogExists(Log.LogID))
                 {
                     return NotFound();
                 }
@@ -74,9 +70,9 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Orders
             return RedirectToPage("./Index");
         }
 
-        private bool OrderExists(int id)
+        private bool LogExists(int id)
         {
-            return _context.Orders.Any(e => e.OrderID == id);
+            return _context.Logs.Any(e => e.LogID == id);
         }
     }
 }

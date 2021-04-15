@@ -24,10 +24,19 @@
                 @Html.DisplayNameFor(model => model.Order[0].OrderAmount)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Order[0].Component)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Priority)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Order[0].OrderStartDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Order[0].OrderEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].WorkGroup)
             </th>
             <th></th>
         </tr>
@@ -45,10 +54,19 @@
                 @Html.DisplayFor(modelItem => item.OrderAmount)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Component.ComponentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Priority.Description)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.OrderStartDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OrderEndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkGroup.WorkGroupName)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.OrderID">Edit</a> |

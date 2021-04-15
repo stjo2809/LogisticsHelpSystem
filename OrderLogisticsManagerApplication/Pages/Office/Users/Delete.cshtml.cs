@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
 
-namespace OrderLogisticsManagerApplication.Pages.Office.PackingMaterials
+namespace OrderLogisticsManagerApplication.Pages.Office.Users
 {
     public class DeleteModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.PackingMaterials
         }
 
         [BindProperty]
-        public PackingMaterial PackingMaterial { get; set; }
+        public User User { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,9 +28,10 @@ namespace OrderLogisticsManagerApplication.Pages.Office.PackingMaterials
                 return NotFound();
             }
 
-            PackingMaterial = await _context.PackingMaterials.FirstOrDefaultAsync(m => m.MaterialID == id);
+            User = await _context.Users
+                .Include(u => u.Status).FirstOrDefaultAsync(m => m.UserID == id);
 
-            if (PackingMaterial == null)
+            if (User == null)
             {
                 return NotFound();
             }
@@ -44,11 +45,11 @@ namespace OrderLogisticsManagerApplication.Pages.Office.PackingMaterials
                 return NotFound();
             }
 
-            PackingMaterial = await _context.PackingMaterials.FindAsync(id);
+            User = await _context.Users.FindAsync(id);
 
-            if (PackingMaterial != null)
+            if (User != null)
             {
-                _context.PackingMaterials.Remove(PackingMaterial);
+                _context.Users.Remove(User);
                 await _context.SaveChangesAsync();
             }
 

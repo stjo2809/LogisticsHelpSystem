@@ -25,14 +25,17 @@
                 <span asp-validation-for="Order.OrderFeedbackNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Order.ComponentPartNumber" class="control-label"></label>
-                <input asp-for="Order.ComponentPartNumber" class="form-control"  />
-                <span asp-validation-for="Order.ComponentPartNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Order.OrderAmount" class="control-label"></label>
                 <input asp-for="Order.OrderAmount" class="form-control" />
                 <span asp-validation-for="Order.OrderAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.ComponentID" class="control-label"></label>
+                <select asp-for="Order.ComponentID" class ="form-control" asp-items="ViewBag.ComponentID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.PriorityID" class="control-label"></label>
+                <select asp-for="Order.PriorityID" class ="form-control" asp-items="ViewBag.PriorityID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Order.OrderStartDate" class="control-label"></label>
@@ -43,6 +46,10 @@
                 <label asp-for="Order.OrderEndDate" class="control-label"></label>
                 <input asp-for="Order.OrderEndDate" class="form-control" />
                 <span asp-validation-for="Order.OrderEndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.WorkGroupID" class="control-label"></label>
+                <select asp-for="Order.WorkGroupID" class ="form-control" asp-items="ViewBag.WorkGroupID"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

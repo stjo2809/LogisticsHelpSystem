@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
 
-namespace OrderLogisticsManagerApplication.Pages.Office.Components
+namespace OrderLogisticsManagerApplication.Pages.Office.Users
 {
     public class DetailsModel : PageModel
     {
@@ -18,7 +18,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Components
             _context = context;
         }
 
-        public Component Component { get; set; }
+        public User User { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -27,9 +27,10 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Components
                 return NotFound();
             }
 
-            Component = await _context.Components.FirstOrDefaultAsync(m => m.ComponentID == id);
+            User = await _context.Users
+                .Include(u => u.Status).FirstOrDefaultAsync(m => m.UserID == id);
 
-            if (Component == null)
+            if (User == null)
             {
                 return NotFound();
             }

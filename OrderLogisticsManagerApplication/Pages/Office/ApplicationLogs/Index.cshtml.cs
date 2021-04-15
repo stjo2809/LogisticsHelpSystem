@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
 
-namespace OrderLogisticsManagerApplication.Pages.Office.Orders
+namespace OrderLogisticsManagerApplication.Pages.Office.ApplicationLogs
 {
     public class IndexModel : PageModel
     {
@@ -18,14 +18,12 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Orders
             _context = context;
         }
 
-        public IList<Order> Order { get;set; }
+        public IList<Log> Log { get;set; }
 
         public async Task OnGetAsync()
         {
-            Order = await _context.Orders
-                .Include(o => o.Component)
-                .Include(o => o.Priority)
-                .Include(o => o.WorkGroup).ToListAsync();
+            Log = await _context.Logs
+                .Include(l => l.User).ToListAsync();
         }
     }
 }

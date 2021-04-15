@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderLogisticsManagerApplication", "OrderLogisticsManagerApplication\OrderLogisticsManagerApplication.csproj", "{484C8973-7533-41BE-96DF-6A2330083A63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogisticsHelpSystemLibrary", "LogisticsHelpSystemLibrary\LogisticsHelpSystemLibrary.csproj", "{95EC5267-5BF8-4FE8-96E3-4FDD9021240C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogisticsHelpSystemLibrary", "LogisticsHelpSystemLibrary\LogisticsHelpSystemLibrary.csproj", "{95EC5267-5BF8-4FE8-96E3-4FDD9021240C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

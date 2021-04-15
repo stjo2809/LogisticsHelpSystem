@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
 
-namespace OrderLogisticsManagerApplication.Pages.Office.Orders
+namespace OrderLogisticsManagerApplication.Pages.Office.Users
 {
     public class CreateModel : PageModel
     {
@@ -20,14 +20,12 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Orders
 
         public IActionResult OnGet()
         {
-        ViewData["ComponentID"] = new SelectList(_context.Components, "ComponentID", "ComponentName");
-        ViewData["PriorityID"] = new SelectList(_context.Priorities, "PriorityID", "Description");
-        ViewData["WorkGroupID"] = new SelectList(_context.WorkGroups, "WorkGroupId", "WorkGroupName");
+        ViewData["UserStatusId"] = new SelectList(_context.UserStatuses, "UserStatusId", "StatusDescription");
             return Page();
         }
 
         [BindProperty]
-        public Order Order { get; set; }
+        public User User { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -37,7 +35,7 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Orders
                 return Page();
             }
 
-            _context.Orders.Add(Order);
+            _context.Users.Add(User);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

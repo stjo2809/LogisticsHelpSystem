@@ -1,0 +1,44 @@
+﻿@page
+@model OrderLogisticsManagerApplication.Pages.Office.Users.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.ApplicationUserGUID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.ApplicationUserGUID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.Status.StatusDescription)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.User.UserID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

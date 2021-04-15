@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using LogisticsHelpSystemLibrary.Models.Database.ApplicationDb;
 
 namespace OrderLogisticsManagerApplication.Pages.Office.PackingMaterials
 {
     public class IndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly LogisticsHelpSystemLibrary.Models.Database.ApplicationDb.ApplicationDbContext _context;
 
-        public IndexModel(ApplicationDbContext context)
+        public IndexModel(LogisticsHelpSystemLibrary.Models.Database.ApplicationDb.ApplicationDbContext context)
         {
             _context = context;
         }
