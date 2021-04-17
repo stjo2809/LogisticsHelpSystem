@@ -4,18 +4,21 @@
     Layout = "_Layout";
 }
 
-<h1>Workshop</h1>
 
-<div>
 
-</div>
-<div>
-
-            <a class="btn btn-primary" asp-page="/Workshop/ConfirmDelivery">Confirm Delivery</a>
-
-            <a class="btn btn-primary" asp-page="/Workshop/CreatePickupRequests">Create Pickup Request</a>
-
-            <a class="btn btn-primary" asp-page="/Workshop/ConfirmPickup">Confirm Pickup</a>
-   
-</div>
-
+<form method="post">
+    <div class="form-group">
+        <h1 style="margin-bottom: 25px">Workshop:   <select name="SelectWorkGroup" asp-items="@Model.WorkGroups"></select></h1>
+    </div>
+    <div class="container">
+        <div class="m-xl-auto form-group">
+            <input type="submit" value="Confirm Delivery" name="ButtonPressed" class="btn btn-dark btn-block" style="font-size: 32px; padding: 50px;  margin: 25px 0px;" />
+        </div>
+        <div class="m-xl-auto form-group">
+            <input type="submit" value="Create Pickup Request" name="ButtonPressed" class="btn btn-dark btn-block" style="font-size: 32px; padding: 50px; margin: 25px 0px;" />
+        </div>
+        <div class="m-xl-auto form-group">
+            <input type="submit" value="Confirm Pickup" name="ButtonPressed" class="btn btn-dark btn-block" style="font-size: 32px; padding: 50px; margin: 25px 0px;" />
+        </div>
+    </div>
+</form>

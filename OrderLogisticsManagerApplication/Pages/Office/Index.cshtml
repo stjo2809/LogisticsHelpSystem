@@ -4,23 +4,50 @@
     Layout = "_Layout";
 }
 
-<h1>Office Index</h1>
+<h1>Office</h1>
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-<div>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" asp-page="/Office/Orders/index">Orders</a>
+            <a class="nav-item nav-link" asp-page="/Office/Users/index">Users</a>
+            <a class="nav-item nav-link" asp-page="/Office/Components/index">Components</a>
+            <a class="nav-item nav-link" asp-page="/Office/PackingMaterials/index">Packing Materials</a>
+            <a class="nav-item nav-link" asp-page="/Office/ApplicationLogs/index">Application Logs</a>
+        </div>
+    </div>
+</nav>
 
+<div style="margin-top: 50px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Orders</th>
+                <th scope="col">Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Component Not Deliveret</th>
+                <td>999</td>
+            </tr>
+            <tr>
+                <th scope="row">Worked on</th>
+                <td>999</td>
+            </tr>
+            <tr>
+                <th scope="row">Pickup Request</th>
+                <td>999</td>
+            </tr>
+            <tr>
+                <th scope="row">In System</th>
+                <td>999</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-<div class="container">
-    <div>
-        <a class="btn btn-primary btn-lg" asp-page="/Office/Orders/index">Orders</a>
-        <a class="btn btn-primary btn-lg" asp-page="/Office/Users/index">Users</a>
-    </div>
-    <div>
-        <a class="btn btn-primary btn-lg" asp-page="/Office/ApplicationLogs/index">Application Logs</a>
-        <a class="btn btn-primary btn-lg" asp-page="/Office/Components/index">Components</a>
-        <a class="btn btn-primary btn-lg" asp-page="/Office/PackingMaterials/index">Packing Materials</a>
-    </div>
 
-    <div>
 
-    </div>
-</div>

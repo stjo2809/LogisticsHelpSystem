@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace OrderLogisticsManagerApplication.Pages.Workshop
 {
-    public class ConfirmDeliveryModel : PageModel
+    public class CreatePickupRequestModel : PageModel
     {
         private readonly ApplicationDbContext _context;
 
@@ -28,13 +28,17 @@ namespace OrderLogisticsManagerApplication.Pages.Workshop
         [BindProperty]
         public int Amount { get; set; }
 
-        public ConfirmDeliveryModel(ApplicationDbContext context)
+        public CreatePickupRequestModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
         public void OnGet()
-        { 
-        }
+        {
+        }//order
+        //cardnumber
+        //amount
+        //packingmaterial
+
     }
 }

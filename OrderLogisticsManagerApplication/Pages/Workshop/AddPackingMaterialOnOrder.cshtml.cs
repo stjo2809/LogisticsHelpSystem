@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace OrderLogisticsManagerApplication.Pages.Workshop
 {
-    public class CreatePickupRequestsModel : PageModel
+    public class AddPackingMaterialOnOrderModel : PageModel
     {
         public void OnGet()
         {
