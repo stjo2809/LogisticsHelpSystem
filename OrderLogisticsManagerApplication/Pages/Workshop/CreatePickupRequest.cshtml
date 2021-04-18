@@ -27,14 +27,33 @@
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" name="ButtonPressed" class="btn btn-primary" />
+            </div>
+        </form>
+        <div>
+            <a asp-page="/Workshop/Index">Back to Menu</a>
+        </div>
+    </div>
+    <div class="col-md-4" style=" margin-left: auto; margin-right: 0;">
+        <h5>Add Packingmaterial</h5>
+        <form method="post" style="margin-top:20px">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <select class="form-select form-select-lg mb-3" asp-items="@Model.PackingMaterialList" ></select>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" name="ButtonPressed" class="btn btn-primary" />
             </div>
         </form>
     </div>
+
 </div>
-<hr />
-<h4>PackingMaterial used on Order</h4>
-<div style="margin-top: 50px;">
+<hr/>
+<h4>Packing Material used on order:</h4>
+<div >
     <table class="table">
         <thead>
             <tr>
@@ -44,33 +63,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>992807307279</td>
-                <td>papkasse</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>992807307279</td>
-                <td>papkasse</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>992807307279</td>
-                <td>papkasse</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>992807307279</td>
-                <td>papkasse</td>
-                <td>2</td>
-            </tr>
+            @foreach (var materialUsedItem in Model.MaterialUsed)
+            {
+                <tr>
+                    <td>@materialUsedItem.Material.MaterialPartNumber</td>
+                    <td>@materialUsedItem.Material.MaterialName</td>
+                    <td>@materialUsedItem.Amount</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
 
-<div>
-    <a asp-page="/Workshop/Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

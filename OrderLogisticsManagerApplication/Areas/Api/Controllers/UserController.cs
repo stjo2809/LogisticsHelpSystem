@@ -90,7 +90,8 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             var result = await userManager.CreateAsync(new ApplicationUser()
             {
                 Email = value.Email,
-                UserName = value.Email                
+                UserName = value.Email,
+                EmailConfirmed = true
             }, "User2Pass@DSB");
 
             if (result.Succeeded)

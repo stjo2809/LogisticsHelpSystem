@@ -16,7 +16,7 @@ namespace LogisticsHelpSystemLibrary.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("LogisticsHelpSystemLibrary.Models.Database.ApplicationDb.Card", b =>
@@ -78,8 +78,9 @@ namespace LogisticsHelpSystemLibrary.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("ComponentPartNumber")
-                        .HasColumnType("bigint");
+                    b.Property<string>("ComponentPartNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float?>("ComponentWeigth")
                         .HasColumnType("real");
@@ -165,11 +166,13 @@ namespace LogisticsHelpSystemLibrary.Migrations
                     b.Property<DateTime>("OrderEndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("OrderFeedbackNumber")
-                        .HasColumnType("bigint");
+                    b.Property<string>("OrderFeedbackNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("OrderNumber")
-                        .HasColumnType("bigint");
+                    b.Property<string>("OrderNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderStartDate")
                         .HasColumnType("datetime2");
@@ -211,8 +214,9 @@ namespace LogisticsHelpSystemLibrary.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("MaterialPartNumber")
-                        .HasColumnType("bigint");
+                    b.Property<string>("MaterialPartNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float?>("MaterialWeigth")
                         .HasColumnType("real");

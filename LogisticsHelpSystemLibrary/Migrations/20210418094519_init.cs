@@ -26,7 +26,7 @@ namespace LogisticsHelpSystemLibrary.Migrations
                 {
                     ComponentID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ComponentPartNumber = table.Column<long>(type: "bigint", nullable: false),
+                    ComponentPartNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ComponentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ComponentWidth = table.Column<float>(type: "real", nullable: true),
                     ComponentHeigth = table.Column<float>(type: "real", nullable: true),
@@ -44,7 +44,7 @@ namespace LogisticsHelpSystemLibrary.Migrations
                 {
                     MaterialID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MaterialPartNumber = table.Column<long>(type: "bigint", nullable: false),
+                    MaterialPartNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MaterialName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HasDimension = table.Column<bool>(type: "bit", nullable: false),
                     MaterialWidth = table.Column<float>(type: "real", nullable: true),
@@ -103,8 +103,8 @@ namespace LogisticsHelpSystemLibrary.Migrations
                 {
                     OrderID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderNumber = table.Column<long>(type: "bigint", nullable: false),
-                    OrderFeedbackNumber = table.Column<long>(type: "bigint", nullable: false),
+                    OrderNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderFeedbackNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderAmount = table.Column<int>(type: "int", nullable: false),
                     ComponentID = table.Column<int>(type: "int", nullable: false),
                     PriorityID = table.Column<int>(type: "int", nullable: false),
