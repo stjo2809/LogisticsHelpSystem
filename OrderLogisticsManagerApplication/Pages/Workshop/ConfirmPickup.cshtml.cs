@@ -14,6 +14,12 @@ namespace OrderLogisticsManagerApplication.Pages.Workshop
     public class ConfirmPickupModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        public string WorkGroupNumber { get; set; }
+
+        [Required]
+        [CardInDbValidationAttribute]
+        [BindProperty]
+        public string CardNumber { get; set; }
 
         public ConfirmPickupModel(ApplicationDbContext context)
         {
@@ -25,13 +31,6 @@ namespace OrderLogisticsManagerApplication.Pages.Workshop
             this.WorkGroupNumber = SelectedWorkGroup;
             return Page();
         }
-
-        public string WorkGroupNumber { get; set; }
-
-        [Required]
-        [CardInDbValidationAttribute]
-        [BindProperty]
-        public string CardNumber { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()

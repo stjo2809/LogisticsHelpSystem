@@ -15,7 +15,7 @@ namespace LogisticsHelpSystemLibrary.Models.Filters
         {
             var applicationDbContext = validationContext.GetRequiredService<ApplicationDbContext>();
 
-            if (applicationDbContext.Orders.Where(x => x.OrderNumber == (long)value).Any())
+            if (applicationDbContext.Orders.Where(x => x.OrderNumber == (string)value).Any())
                 return ValidationResult.Success;
             else
                 return new ValidationResult("Order Number not found in Database");

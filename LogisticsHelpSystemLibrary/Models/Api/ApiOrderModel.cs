@@ -11,10 +11,10 @@ namespace LogisticsHelpSystemLibrary.Models.Api
         public int OrderID { get; set; }
 
         [Required]
-        public long OrderNumber { get; set; }
+        public string OrderNumber { get; set; }
 
         [Required]
-        public long OrderFeedbackNumber { get; set; }
+        public string OrderFeedbackNumber { get; set; }
 
         [Required]
         public int OrderAmount { get; set; }

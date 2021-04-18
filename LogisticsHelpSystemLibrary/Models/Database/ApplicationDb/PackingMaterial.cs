@@ -12,7 +12,7 @@ namespace LogisticsHelpSystemLibrary.Models.Database.ApplicationDb
         public int MaterialID { get; set; }
 
         [Required]
-        public long MaterialPartNumber { get; set; }
+        public string MaterialPartNumber { get; set; }
 
         [Required]
         public string MaterialName { get; set; }

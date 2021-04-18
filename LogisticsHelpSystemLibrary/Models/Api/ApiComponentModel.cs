@@ -11,7 +11,7 @@ namespace LogisticsHelpSystemLibrary.Models.Api
         public int ComponentID { get; set; }
 
         [Required]
-        public long ComponentPartNumber { get; set; }
+        public string ComponentPartNumber { get; set; }
 
         [Required]
         public string ComponentName { get; set; }

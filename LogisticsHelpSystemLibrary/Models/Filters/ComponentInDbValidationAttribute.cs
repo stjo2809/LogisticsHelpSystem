@@ -15,7 +15,7 @@ namespace LogisticsHelpSystemLibrary.Models.Filters
         {
             var applicationDbContext = validationContext.GetRequiredService<ApplicationDbContext>();
 
-            if (applicationDbContext.Components.Where(x => x.ComponentPartNumber == (long)value).Any())
+            if (applicationDbContext.Components.Where(x => x.ComponentPartNumber == (string)value).Any())
                 return ValidationResult.Success;
             else
                 return new ValidationResult("Component Part Number not found in Database");

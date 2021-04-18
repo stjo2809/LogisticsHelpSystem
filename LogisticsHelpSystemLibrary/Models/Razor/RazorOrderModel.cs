@@ -15,11 +15,11 @@ namespace LogisticsHelpSystemLibrary.Models.Razor
 
         [Required]
         [Display(Name = "Order Number")]
-        public long OrderNumber { get; set; }
+        public string OrderNumber { get; set; }
 
         [Required]
         [Display(Name = "Order FeedBack Number")]
-        public long OrderFeedbackNumber { get; set; }
+        public string OrderFeedbackNumber { get; set; }
 
         [Required]
         [Display(Name = "Amount")]

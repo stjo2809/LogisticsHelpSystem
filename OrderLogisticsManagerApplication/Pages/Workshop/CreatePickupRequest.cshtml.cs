@@ -28,6 +28,10 @@ namespace OrderLogisticsManagerApplication.Pages.Workshop
         [BindProperty]
         public int Amount { get; set; }
 
+        [Required]
+        [BindProperty]
+        public List<PackingMaterialUsedOnOrder> MaterialUsed { get; set; }
+
         public CreatePickupRequestModel(ApplicationDbContext context)
         {
             _context = context;
@@ -35,6 +39,8 @@ namespace OrderLogisticsManagerApplication.Pages.Workshop
 
         public void OnGet()
         {
+            
+                
         }//order
         //cardnumber
         //amount
