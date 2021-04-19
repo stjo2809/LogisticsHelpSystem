@@ -7,51 +7,60 @@
 <h1>Create Pickup Request</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="OrderNumber" class="control-label"></label>
-                <input asp-for="OrderNumber" class="form-control" />
-                <span asp-validation-for="OrderNumber" class="text-danger"></span>
+<div class="container">
+    <form method="post">
+        <div class="row">
+            <div class="col-mb-6">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="OrderNumber" class="control-label"></label>
+                    <input asp-for="OrderNumber" class="form-control" />
+                    <span asp-validation-for="OrderNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CardNumber" class="control-label"></label>
+                    <input asp-for="CardNumber" class="form-control" />
+                    <span asp-validation-for="CardNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Amount" class="control-label"></label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" name="ButtonPressed" class="btn btn-primary" />
+                </div>    
             </div>
-            <div class="form-group">
-                <label asp-for="CardNumber" class="control-label"></label>
-                <input asp-for="CardNumber" class="form-control" />
-                <span asp-validation-for="CardNumber" class="text-danger"></span>
+            <div class="col-mb-4" style="margin-left: auto; margin-right: 0px">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Add Packingmaterial</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="control-label">Name</label>
+                            <select class="form-select form-select-lg mb-3" name="SelectedMaterial" asp-items="@Model.PackingMaterialList"></select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PackingMaterialAmount" class="control-label"></label>
+                            <input asp-for="PackingMaterialAmount" class="form-control" />
+                            <span asp-validation-for="PackingMaterialAmount" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Add" name="ButtonPressed" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" name="ButtonPressed" class="btn btn-primary" />
-            </div>
-        </form>
-        <div>
-            <a asp-page="/Workshop/Index">Back to Menu</a>
         </div>
+    </form>
+    <div>
+        <a asp-page="/Workshop/Index">Back to Menu</a>
     </div>
-    <div class="col-md-4" style=" margin-left: auto; margin-right: 0;">
-        <h5>Add Packingmaterial</h5>
-        <form method="post" style="margin-top:20px">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <select class="form-select form-select-lg mb-3" asp-items="@Model.PackingMaterialList" ></select>
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Add" name="ButtonPressed" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-
 </div>
+
 <hr/>
+
 <h4>Packing Material used on order:</h4>
 <div >
     <table class="table">
@@ -66,8 +75,8 @@
             @foreach (var materialUsedItem in Model.MaterialUsed)
             {
                 <tr>
-                    <td>@materialUsedItem.Material.MaterialPartNumber</td>
-                    <td>@materialUsedItem.Material.MaterialName</td>
+                    <td>@materialUsedItem.MaterialPartNumber</td>
+                    <td>@materialUsedItem.MaterialName</td>
                     <td>@materialUsedItem.Amount</td>
                 </tr>
             }
