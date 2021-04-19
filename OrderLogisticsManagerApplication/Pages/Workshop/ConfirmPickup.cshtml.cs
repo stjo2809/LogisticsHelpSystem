@@ -14,6 +14,8 @@ namespace OrderLogisticsManagerApplication.Pages.Workshop
     public class ConfirmPickupModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+
+        [BindProperty]
         public string WorkGroupNumber { get; set; }
 
         [Required]
@@ -43,7 +45,7 @@ namespace OrderLogisticsManagerApplication.Pages.Workshop
             var pickupEntity = new Pickup()
             {
                 PickupTime = DateTime.Now,
-                User = _context.Card.Where(x => x.CardNumber == CardNumber).FirstOrDefault().User
+                UserID = _context.Card.Where(x => x.CardNumber == CardNumber).FirstOrDefault().UserId
             };
 
             _context.Pickups.Add(pickupEntity);

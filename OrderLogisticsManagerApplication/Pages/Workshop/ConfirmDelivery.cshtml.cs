@@ -22,7 +22,7 @@ namespace OrderLogisticsManagerApplication.Pages.Workshop
         [Required]
         [OrderInDbValidation]
         [BindProperty]
-        public long OrderNumber { get; set; }
+        public string OrderNumber { get; set; }
 
         [Required]
         [BindProperty]
@@ -35,6 +35,27 @@ namespace OrderLogisticsManagerApplication.Pages.Workshop
 
         public void OnGet()
         { 
+        }
+
+        public IActionResult OnPost()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var delivery = new Delivery()
+            {
+                Order = _context.Orders.Where(x => x.OrderNumber == OrderNumber).FirstOrDefault(),
+                DeliveryAmount = Amount,
+                DeliveryTime = DateTime.Now,
+                UserID = _context.Card.Where(x => x.CardNumber == CardNumber).FirstOrDefault().UserId,
+            };
+
+            _context.Add(delivery);
+            _context.SaveChanges();
+
+            return RedirectToPage("./Index");
         }
     }
 }

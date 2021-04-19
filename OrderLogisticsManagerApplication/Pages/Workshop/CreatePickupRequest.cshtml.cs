@@ -113,10 +113,5 @@ namespace OrderLogisticsManagerApplication.Pages.Workshop
                 return RedirectToPage("/Workshop/CreatePickupRequest", new { OrderNumber, CardNumber });
             }
         }
-        //order
-        //cardnumber
-        //amount
-        //packingmaterial
-
     }
 }
