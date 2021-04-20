@@ -32,6 +32,10 @@ namespace OrderLogisticsManagerApplication.Pages.Office.Orders
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Remove("Order.Component");
+            ModelState.Remove("Order.Priority");
+            ModelState.Remove("Order.WorkGroup");
+
             if (!ModelState.IsValid)
             {
                 return Page();

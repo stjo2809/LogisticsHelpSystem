@@ -57,7 +57,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
             applicationDbContext.Components.Add(new Component()
                 {
                     ComponentPartNumber = "100",
-                    ComponentName = "Radio -> TestComponent",
+                    ComponentName = "Radio",
                     ComponentHeigth = (float)30,
                     ComponentWidth = (float)40,
                     ComponentDepth = (float)30,
@@ -66,7 +66,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
                 applicationDbContext.Components.Add(new Component()
                 {
                     ComponentPartNumber = "200",
-                    ComponentName = "ATC hoveddatamat -> TestComponent",
+                    ComponentName = "ATC hoveddatamat",
                     ComponentHeigth = (float)50,
                     ComponentWidth = (float)60,
                     ComponentDepth = (float)50,
@@ -75,7 +75,7 @@ namespace OrderLogisticsManagerApplication.Areas.Api.Controllers
                 applicationDbContext.Components.Add(new Component()
                 {
                     ComponentPartNumber = "300",
-                    ComponentName = "InformationsDisplay -> TestComponent",
+                    ComponentName = "InformationsDisplay",
                     ComponentHeigth = (float)30,
                     ComponentWidth = (float)120,
                     ComponentDepth = (float)15,
